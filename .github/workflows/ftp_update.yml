@@ -27,13 +27,8 @@ jobs:
           from ftpretty import FTP
           import os
 
-          # Obtener host y puerto si se incluye como ftp.servidor.com:2121
-          host_port = os.environ['FTP_HOST'].split(":")
-          host = host_port[0]
-          port = int(host_port[1]) if len(host_port) > 1 else 21
-
           # Conectarse al FTP
-          ftp = FTP(host, os.environ['FTP_USER'], os.environ['FTP_PASS'], port=port)
+          ftp = FTP(host, os.environ['FTP_USER'], os.environ['FTP_PASS'])
 
           # Cambiar al directorio deseado
           ftp.cd('/ecoener-envios/disponibilidad-tr')
