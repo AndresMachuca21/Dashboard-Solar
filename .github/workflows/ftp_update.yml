@@ -1,5 +1,10 @@
 name: Actualizar CSV desde FTP
 
+
+permissions:
+  contents: write
+
+
 on:
   schedule:
     - cron: '5,10,15,20,25 12-23 * * *'  # 7:05–20:20 hora Colombia
