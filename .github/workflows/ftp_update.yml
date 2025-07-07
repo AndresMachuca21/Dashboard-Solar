@@ -13,10 +13,6 @@ jobs:
       - name: Clonar el repositorio
         uses: actions/checkout@v3
 
-      - name: Instalar dependencias
-        run: |
-          pip install ftpretty
-
       - name: Descargar archivo más reciente desde FTP
         env:
           FTP_HOST: ${{ secrets.FTP_HOST }}
@@ -24,24 +20,27 @@ jobs:
           FTP_PASS: ${{ secrets.FTP_PASS }}
         run: |
           python3 <<EOF
-          from ftpretty import FTP
+          from ftplib import FTP
           import os
-      
-          ftp = FTP(
-            os.environ['FTP_HOST'],
-            os.environ['FTP_USER'],
-            os.environ['FTP_PASS']
-          )
-      
+
+          ftp = FTP(os.environ['FTP_HOST'])
+          ftp.login(os.environ['FTP_USER'], os.environ['FTP_PASS'])
+
           ftp.cwd('/ecoener-envios/disponibilidad-tr')
-      
-          archivos = ftp.list_files()
+
+          # Obtener lista de archivos
+          archivos = ftp.nlst()
+
+          # Filtrar solo archivos CSV y ordenar
           archivos_csv = sorted([f for f in archivos if f.endswith('.csv')])
           archivo_mas_reciente = archivos_csv[-1]
-      
-          ftp.download(archivo_mas_reciente, 'generacion_actual.csv')
-          ftp.close()
-      
+
+          # Descargar el archivo más reciente y guardarlo localmente
+          with open('generacion_actual.csv', 'wb') as f:
+              ftp.retrbinary(f'RETR {archivo_mas_reciente}', f.write)
+
+          ftp.quit()
+
           print(f"Archivo descargado: {archivo_mas_reciente}")
           EOF
 
