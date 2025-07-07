@@ -2,12 +2,12 @@ from ftplib import FTP
 import os
 
 # ==== 🔐 CREDENCIALES DEL FTP ====
-ftp_host = "158.23.81.148"
-ftp_user = "ecoener-envios"
-ftp_pass = "Gw6h=H"
-ftp_port = 21  # Cambia si es distinto
-ftp_dir = "/ecoener-envios/disponibilidad-tr"  # Carpeta en el FTP
-local_path = "/Users/andresmachuca/Desktop/ECOENER/Dashboard/ftp_files/generacion_actual.csv"
+ftp_host = 
+ftp_user = 
+ftp_pass = 
+ftp_port = 
+ftp_dir = 
+local_path = 
 
 
 try:
