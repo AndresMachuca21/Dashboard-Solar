@@ -81,7 +81,7 @@ except Exception as e:
 
 
 st.markdown("""
-    <meta http-equiv="refresh" content="300">
+    <meta http-equiv="refresh" content="10">
 """, unsafe_allow_html=True)
 
 
