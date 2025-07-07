@@ -1,0 +1,58 @@
+name: Actualizar CSV desde FTP
+
+on:
+  schedule:
+    - cron: '5,10,15,20,25 12-23 * * *'  # 7:05–20:20 hora Colombia
+  workflow_dispatch:  # Permite ejecutarlo manualmente también
+
+jobs:
+  update_csv:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v3
+
+      - name: Instalar dependencias
+        run: |
+          pip install ftpretty
+
+      - name: Descargar archivo más reciente desde FTP
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASS }}
+        run: |
+          python3 <<EOF
+          from ftpretty import FTP
+          import os
+
+          # Obtener host y puerto si se incluye como ftp.servidor.com:2121
+          host_port = os.environ['FTP_HOST'].split(":")
+          host = host_port[0]
+          port = int(host_port[1]) if len(host_port) > 1 else 21
+
+          # Conectarse al FTP
+          ftp = FTP(host, os.environ['FTP_USER'], os.environ['FTP_PASS'], port=port)
+
+          # Cambiar al directorio deseado
+          ftp.cd('/ecoener-envios/disponibilidad-tr')
+
+          # Listar los archivos CSV y tomar el último en orden alfabético
+          archivos = ftp.listdir()
+          archivos_csv = sorted([f for f in archivos if f.endswith(".csv")])
+          archivo_mas_reciente = archivos_csv[-1]
+
+          # Descargar como 'generacion_actual.csv'
+          ftp.get(archivo_mas_reciente, "generacion_actual.csv")
+          ftp.close()
+          print(f"Archivo descargado: {archivo_mas_reciente}")
+          EOF
+
+      - name: Commit y push si hay cambios
+        run: |
+          git config user.name "andresmachuca21"
+          git config user.email "andres@example.com"
+          git add generacion_actual.csv || exit 0
+          git commit -m "Auto-update CSV desde FTP" || exit 0
+          git push
