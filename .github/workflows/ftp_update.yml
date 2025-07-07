@@ -26,23 +26,29 @@ jobs:
           python3 <<EOF
           from ftpretty import FTP
           import os
-
-          # Conectarse al FTP
-          ftp = FTP(host, os.environ['FTP_USER'], os.environ['FTP_PASS'])
-
-          # Cambiar al directorio deseado
+      
+          # Conectarse al FTP (sin puerto)
+          ftp = FTP(
+            os.environ['FTP_HOST'],
+            os.environ['FTP_USER'],
+            os.environ['FTP_PASS']
+          )
+      
+          # Navegar al directorio que contiene los archivos
           ftp.cd('/ecoener-envios/disponibilidad-tr')
-
-          # Listar los archivos CSV y tomar el último en orden alfabético
+      
+          # Listar archivos CSV y seleccionar el más reciente por orden alfabético
           archivos = ftp.listdir()
-          archivos_csv = sorted([f for f in archivos if f.endswith(".csv")])
+          archivos_csv = sorted([f for f in archivos if f.endswith('.csv')])
           archivo_mas_reciente = archivos_csv[-1]
-
-          # Descargar como 'generacion_actual.csv'
-          ftp.get(archivo_mas_reciente, "generacion_actual.csv")
+      
+          # Descargar el archivo y guardarlo localmente con nombre fijo
+          ftp.get(archivo_mas_reciente, 'generacion_actual.csv')
           ftp.close()
+      
           print(f"Archivo descargado: {archivo_mas_reciente}")
           EOF
+
 
       - name: Commit y push si hay cambios
         run: |
