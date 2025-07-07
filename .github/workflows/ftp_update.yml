@@ -35,7 +35,7 @@ jobs:
           )
       
           # Navegar al directorio que contiene los archivos
-          ftp.cd('/ecoener-envios/disponibilidad-tr')
+          ftp.cwd('/ecoener-envios/disponibilidad-tr')
       
           # Listar archivos CSV y seleccionar el más reciente por orden alfabético
           archivos = ftp.listdir()
