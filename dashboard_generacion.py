@@ -19,7 +19,7 @@ st.title("Producción Sunnorte")
 #     st.image("https://www.issuersolutions.com/wp-content/uploads/2022/02/ECOENER-2.png", width=300)
 
 
-archivo_csv = "/Users/andresmachuca/Desktop/ECOENER/Dashboard/ftp_files/generacion_actual.csv"
+archivo_csv = "generacion_actual.csv"
 
 # Verifica que el archivo exista
 if not os.path.exists(archivo_csv):
