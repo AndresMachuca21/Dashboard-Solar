@@ -3,7 +3,7 @@ name: Actualizar CSV desde FTP
 on:
   schedule:
     - cron: '5,10,15,20,25 12-23 * * *'  # 7:05–20:20 hora Colombia
-  workflow_dispatch:  # Permite ejecutarlo manualmente también
+  workflow_dispatch:
 
 jobs:
   update_csv:
@@ -27,33 +27,28 @@ jobs:
           from ftpretty import FTP
           import os
       
-          # Conectarse al FTP (sin puerto)
           ftp = FTP(
             os.environ['FTP_HOST'],
             os.environ['FTP_USER'],
             os.environ['FTP_PASS']
           )
       
-          # Navegar al directorio que contiene los archivos
           ftp.cwd('/ecoener-envios/disponibilidad-tr')
       
-          # Listar archivos CSV y seleccionar el más reciente por orden alfabético
-          archivos = ftp.listdir()
+          archivos = ftp.list_files()
           archivos_csv = sorted([f for f in archivos if f.endswith('.csv')])
           archivo_mas_reciente = archivos_csv[-1]
       
-          # Descargar el archivo y guardarlo localmente con nombre fijo
-          ftp.get(archivo_mas_reciente, 'generacion_actual.csv')
+          ftp.download(archivo_mas_reciente, 'generacion_actual.csv')
           ftp.close()
       
           print(f"Archivo descargado: {archivo_mas_reciente}")
           EOF
 
-
       - name: Commit y push si hay cambios
         run: |
-          git config user.name "andresmachuca21"
-          git config user.email "andres@example.com"
+          git config user.name "AndresMachuca21"
+          git config user.email "andresmachuca21@gmail.com"
           git add generacion_actual.csv || exit 0
           git commit -m "Auto-update CSV desde FTP" || exit 0
           git push
