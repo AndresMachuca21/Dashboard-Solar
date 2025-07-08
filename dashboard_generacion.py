@@ -87,4 +87,4 @@ st.markdown("""
 
 
 
-st.caption(f"Última actualización (UTC): {datetime.now(ZoneInfo('America/Bogota')).strftime('%Y-%m-%d %H:%M:%S')}")
+st.caption(f"Última actualización (UTC-5): {datetime.now(ZoneInfo('America/Bogota')).strftime('%Y-%m-%d %H:%M:%S')}")
