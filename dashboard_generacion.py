@@ -3,6 +3,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 import altair as alt
 import os
+from zoneinfo import ZoneInfo
 
 
 st.set_page_config(page_title="Dashboard Planta Solar", layout="wide")
@@ -86,4 +87,4 @@ st.markdown("""
 
 
 
-st.caption(f"Última actualización: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+st.caption(f"Última actualización: {datetime.now(ZoneInfo('America/Bogota')).strftime('%Y-%m-%d %H:%M:%S')}")
