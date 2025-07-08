@@ -10,7 +10,7 @@ st.set_page_config(page_title="Dashboard Planta Solar", layout="wide")
 # st.title("☀️ Producción Sunnorte")
 
 
-st.image("https://www.issuersolutions.com/wp-content/uploads/2022/02/ECOENER-2.png", width=300)
+#st.image("https://www.issuersolutions.com/wp-content/uploads/2022/02/ECOENER-2.png", width=300)
 st.title("Producción Sunnorte")
 
 # col1, col2 = st.columns([1, 0.15])
