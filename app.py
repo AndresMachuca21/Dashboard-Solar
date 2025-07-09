@@ -74,13 +74,13 @@ def crear_figura(df):
         xaxis=dict(
             categoryorder='array',
             categoryarray=df["hora"].tolist(),
-            showgrid=True,
+            showgrid=False,
             gridcolor="#DDDDDD",
             showline=True,
             linecolor="#000000"
         ),
         yaxis=dict(
-            showgrid=False,
+            showgrid=True,
             zeroline=False
         ),
         plot_bgcolor="#F2F2F2",
