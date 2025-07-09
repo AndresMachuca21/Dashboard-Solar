@@ -8,19 +8,14 @@ from dash.dependencies import Input, Output
 def cargar_datos():
     df = pd.read_csv("generacion_actual.csv", skiprows=1, sep=';')
     df["Ends"] = pd.to_datetime(df["Ends dd/mm/YYYY HH:MM"], dayfirst=True)
-
-    # Usamos hora sin zona (asumiendo hora local Colombia ya incluida)
     df["Ends_col"] = df["Ends"].dt.tz_localize(None)
     df["hora"] = df["Ends_col"].dt.strftime("%H:%M")
 
-    # Filtrar solo el último día
     ultimo_dia = df["Ends_col"].dt.date.max()
     df_ultimo_dia = df[df["Ends_col"].dt.date == ultimo_dia].copy()
-
     df_por_hora = df_ultimo_dia[["hora", "Power MW"]]
     df_por_hora.rename(columns={"Power MW": "energia_MWh"}, inplace=True)
 
-    # Crear rango completo de horas
     horas_completas = pd.date_range("00:00", "23:00", freq="h").strftime("%H:%M")
     df_completo = pd.DataFrame({"hora": horas_completas})
     df_final = df_completo.merge(df_por_hora, on="hora", how="left")
@@ -30,17 +25,17 @@ def cargar_datos():
 def crear_figura(df):
     fig = go.Figure()
 
-    # Línea principal
+    # Línea principal sin leyenda
     fig.add_trace(go.Scatter(
         x=df["hora"],
         y=df["energia_MWh"],
         mode="lines+markers",
         line=dict(color="#84B113", width=3),
         marker=dict(size=6),
-        name="Generación"
+        showlegend=False
     ))
 
-    # Último punto (parpadeando con animación)
+    # Punto final parpadeante sin leyenda
     ultimo_valor = df["energia_MWh"].dropna().iloc[-1]
     ultima_hora = df["hora"][df["energia_MWh"].last_valid_index()]
 
@@ -55,7 +50,6 @@ def crear_figura(df):
             line=dict(color="#000", width=2),
             symbol="circle"
         ),
-        name="Último dato",
         showlegend=False
     ))
 
@@ -63,8 +57,17 @@ def crear_figura(df):
         title=None,
         xaxis_title="Hora",
         yaxis_title="Energía (MWh)",
-        xaxis=dict(categoryorder='array', categoryarray=df["hora"].tolist()),
-        plot_bgcolor="#FFFFFF",
+        xaxis=dict(
+            categoryorder='array',
+            categoryarray=df["hora"].tolist(),
+            showgrid=True,
+            gridcolor="#CCCCCC"
+        ),
+        yaxis=dict(
+            showgrid=True,
+            gridcolor="#CCCCCC"
+        ),
+        plot_bgcolor="#F2F2F2",
         paper_bgcolor="#F2F2F2",
         font=dict(color="#000000", family="Arial"),
         margin=dict(l=40, r=40, t=50, b=40),
@@ -72,7 +75,6 @@ def crear_figura(df):
 
     return fig
 
-# App Dash
 app = Dash(__name__)
 server = app.server
 
