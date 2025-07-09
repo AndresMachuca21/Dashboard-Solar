@@ -1,4 +1,9 @@
-streamlit
+dash
 pandas
-python-dotenv
-altair
+plotly
+gunicorn
+
+# streamlit
+# pandas
+# python-dotenv
+# altair
