@@ -19,13 +19,16 @@ fig = px.line(df_filtrado, x="hora", y="energia_MWh", title="Producción por hor
 
 # KPIs
 energia_total = df_filtrado["energia_MWh"].sum()
+max_row = df_filtrado.loc[df_filtrado["energia_MWh"].idxmax()]
+max_hora = max_row["hora"]
+max_valor = max_row["energia_MWh"]
 
 # App
 app = Dash(__name__)
 server = app.server  # para Render
 
 app.layout = html.Div(children=[
-    html.Img(src='https://www.issuersolutions.com/wp-content/uploads/2022/02/ECOENER-2.png',
+    html.Img(src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Solar_panel_icon.svg/1200px-Solar_panel_icon.svg.png',
              style={"height": "60px", "margin": "10px"}),
 
     html.H1("Dashboard Planta Solar", style={"textAlign": "center"}),
@@ -37,7 +40,7 @@ app.layout = html.Div(children=[
             html.H4("Energía Total Generada"),
             html.P(f"{energia_total:.1f} kWh")
         ], style={"width": "30%", "display": "inline-block"}),
-),
+    ], style={"textAlign": "center"}),
 
     html.Div([
         html.P(f"Última actualización: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
