@@ -82,7 +82,8 @@ def crear_figura(df):
         yaxis=dict(
             showgrid=True,
             gridcolor="#DDDDDD",
-            zeroline=False
+            zeroline=False,
+            range=[0, 36]
         ),
         plot_bgcolor="#F2F2F2",
         paper_bgcolor="#F2F2F2",
