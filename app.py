@@ -129,7 +129,7 @@ app.layout = html.Div(
         dcc.Interval(id='interval-refresh', interval=5*60*1000, n_intervals=0),
 
         # Intervalo para animación cada 500 ms
-        dcc.Interval(id='interval-pulse', interval=500, n_intervals=0),
+        dcc.Interval(id='interval-pulse', interval=1000, n_intervals=0),
 
         # Guardar estado del pulso
         dcc.Store(id='pulso-estado', data=True)
