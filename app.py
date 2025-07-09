@@ -33,6 +33,7 @@ def crear_figura(df, pulso_on):
 
     fig = go.Figure()
 
+    # linea 
     fig.add_trace(go.Scatter(
         x=df["hora"],
         y=df["energia_MWh"],
@@ -42,9 +43,11 @@ def crear_figura(df, pulso_on):
         showlegend=False
     ))
 
+    # Variables para el efecto pulso
     size = 12 if pulso_on else 8
     opacity = 1 if pulso_on else 0.4
 
+    # creación del punto final con efecto pulso
     fig.add_trace(go.Scatter(
         x=[hora_final],
         y=[valor_final],
@@ -53,26 +56,34 @@ def crear_figura(df, pulso_on):
         showlegend=False
     ))
 
+    # layout
     fig.update_layout(
-        xaxis_title="Hora",
+        xaxis_title=None,
         yaxis_title="Energía (MWh)",
+        
+        # Eje x
         xaxis=dict(
             categoryorder='array',
             categoryarray=df["hora"].tolist(),
             showgrid=False,
             showline=True,
-            linecolor="#000000"
+            linecolor="#000000",
+            
+
         ),
+
+        # Eje y
         yaxis=dict(
             showgrid=True,
             gridcolor="#DDDDDD",
-            zeroline=False,
+            zeroline=True,
+            zerolinecolor="#000000",
             range=[0, 36]
         ),
         plot_bgcolor="#F2F2F2",
         paper_bgcolor="#F2F2F2",
         font=dict(color="#000000", family="Arial"),
-        margin=dict(l=40, r=40, t=50, b=40),
+        margin=dict(l=40, r=40, t=10, b=20),
     )
 
     return fig
@@ -82,8 +93,10 @@ app = Dash(__name__)
 server = app.server
 
 app.layout = html.Div(
-    style={"position": "relative", "fontFamily": "Arial, sans-serif", "padding": "30px", "backgroundColor": "#F2F2F2"},
+    style={"position": "relative", "fontFamily": "Prata, Roboto", "padding": "35px", "backgroundColor": "#F2F2F2"},
     children=[
+        
+        #Logo
         html.Img(
             src="/assets/logo.png",
             style={
@@ -94,25 +107,58 @@ app.layout = html.Div(
                 "zIndex": "10"
             }
         ),
+
+        html.Img(
+            src="/assets/mapa.png",
+            style={
+                "position": "absolute",
+                "bottom": "40px",
+                "right": "280px",
+                "height": "160px",
+                "zIndex": "1000"
+            }
+        ),
+        
+        # Título
         html.H1("Generación Sunnorte", style={
             "textAlign": "center",
             "color": "#000000",
-            "marginBottom": "5px"
+            "marginBottom": "0px"
         }),
+
+        # Fecha actual
+        html.H4( "Hoy: " + datetime.now(ZoneInfo('America/Bogota')).strftime('%d/%m/%Y'), style={
+            "textAlign": "left",
+            "color": "#000000",
+            "marginBottom": "15px",
+            "marginTop": "0px",
+            "marginLeft": "60px",
+            "fontSize": "20px",
+
+        }),
+        
+        # Gráfico de generación
         dcc.Graph(id="grafico-generacion", config={"displayModeBar": False}),
+        
+        #KPI
         html.Div([
-            html.H4("Producción acumulada", style={"color": "#000000"}),
+            html.H4("Producción acumulada", style={ "fontSize": "20px","color": "#000000","marginBottom": "10px"}),
             html.P(id="kpi-generacion", style={
                 "fontSize": "32px",
-                "fontWeight": "bold",
-                "color": "#84B113"
+                #"fontWeight": "bold",
+                "color": "#84B113",
+                "marginTop": "10px"
             })
         ], style={"textAlign": "center", "marginTop": "30px"}),
+        
+        # Última actualización
         html.Div(id="ultima-actualizacion", style={
-            "textAlign": "center", "marginTop": "20px", "fontSize": "12px", "color": "#777"
+            "textAlign": "center", "marginTop": "60px", "fontSize": "12px", "color": "#777"
         }),
-        dcc.Interval(id='interval-refresh', interval=60*1000, n_intervals=0),  # cada minuto
-        dcc.Interval(id='interval-pulse', interval=1000, n_intervals=0),       # cada 1 segundo
+
+        # Intervalos para actualización y efecto pulso
+        dcc.Interval(id='interval-refresh', interval=60*1000, n_intervals=0),  # cada minuto Grafica, KPI y hora
+        dcc.Interval(id='interval-pulse', interval=1000, n_intervals=0),       # cada 1 segundo pulso
         dcc.Store(id='pulso-estado', data=True),
         dcc.Store(id='datos-generacion')
     ]
