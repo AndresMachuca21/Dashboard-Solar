@@ -3,9 +3,9 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 import plotly.graph_objects as go
 from dash import Dash, html, dcc
-from dash.dependencies import Input, Output, State
+from dash.dependencies import Input, Output
 
-# Cargar datos
+# Función para cargar datos
 def cargar_datos():
     df = pd.read_csv("generacion_actual.csv", skiprows=1, sep=';')
     df["Ends"] = pd.to_datetime(df["Ends dd/mm/YYYY HH:MM"], dayfirst=True)
@@ -23,10 +23,14 @@ def cargar_datos():
 
     return df_final
 
-# Crear figura con opción de modificar tamaño del punto final
-def crear_figura(df, pulso_activo=True):
+# Función para crear figura animada sin botón visible
+def crear_figura(df):
+    hora_final = df["hora"][df["energia_MWh"].last_valid_index()]
+    valor_final = df["energia_MWh"].dropna().iloc[-1]
+
     fig = go.Figure()
 
+    # Línea base
     fig.add_trace(go.Scatter(
         x=df["hora"],
         y=df["energia_MWh"],
@@ -36,43 +40,55 @@ def crear_figura(df, pulso_activo=True):
         showlegend=False
     ))
 
-    # Agregar punto final con animación de tamaño
-    idx_final = df["energia_MWh"].last_valid_index()
-    if idx_final is not None:
-        hora_final = df["hora"].iloc[idx_final]
-        valor_final = df["energia_MWh"].iloc[idx_final]
+    # Punto animado ON
+    frame_on = go.Scatter(
+        x=[hora_final],
+        y=[valor_final],
+        mode="markers",
+        marker=dict(size=18, color="#84B113", opacity=1, line=dict(color="#000", width=2)),
+        showlegend=False
+    )
 
-        punto_size = 18 if pulso_activo else 8
-        punto_opacity = 1 if pulso_activo else 0.3
+    # Punto animado OFF
+    frame_off = go.Scatter(
+        x=[hora_final],
+        y=[valor_final],
+        mode="markers",
+        marker=dict(size=8, color="#84B113", opacity=0.2),
+        showlegend=False
+    )
 
-        fig.add_trace(go.Scatter(
-            x=[hora_final],
-            y=[valor_final],
-            mode="markers",
-            marker=dict(size=punto_size, color="#84B113", opacity=punto_opacity, line=dict(color="#000", width=2)),
-            showlegend=False
-        ))
+    # Agregar primer punto
+    fig.add_trace(frame_on)
 
+    # Agregar animación
+    fig.frames = [
+        go.Frame(data=[frame_on], name="pulse-on"),
+        go.Frame(data=[frame_off], name="pulse-off")
+    ]
+
+    # Configurar animación automática al cargar
     fig.update_layout(
         xaxis_title="Hora",
         yaxis_title="Energía (MWh)",
         xaxis=dict(
             categoryorder='array',
             categoryarray=df["hora"].tolist(),
-            showgrid=False,
+            showgrid=True,
+            gridcolor="#DDDDDD",
             showline=True,
             linecolor="#000000"
         ),
         yaxis=dict(
-            showgrid=True,
-            gridcolor="#DDDDDD",
-            showline=False,
-            range=[0, 35]
+            showgrid=False,
+            zeroline=False
         ),
         plot_bgcolor="#F2F2F2",
         paper_bgcolor="#F2F2F2",
         font=dict(color="#000000", family="Arial"),
-        margin=dict(l=40, r=40, t=50, b=40)
+        margin=dict(l=40, r=40, t=50, b=40),
+        updatemenus=[],  # ← elimina el botón de animación
+        sliders=[]       # ← elimina slider si existía
     )
 
     return fig
@@ -81,13 +97,10 @@ def crear_figura(df, pulso_activo=True):
 app = Dash(__name__)
 server = app.server
 
-# Estado inicial
-df_inicial = cargar_datos()
-
 app.layout = html.Div(
     style={"position": "relative", "fontFamily": "Arial, sans-serif", "padding": "30px", "backgroundColor": "#F2F2F2"},
     children=[
-        # Logo
+        # Logo arriba a la derecha
         html.Img(
             src="/assets/logo.png",
             style={
@@ -99,14 +112,17 @@ app.layout = html.Div(
             }
         ),
 
+        # Título principal
         html.H1("Generación Sunnorte", style={
             "textAlign": "center",
             "color": "#000000",
             "marginBottom": "40px"
         }),
 
-        dcc.Graph(id="grafico-generacion", animate=False, config={"displayModeBar": False}),
+        # Gráfico animado
+        dcc.Graph(id="grafico-generacion", figure=crear_figura(cargar_datos()), animate=True),
 
+        # KPI
         html.Div([
             html.H4("Energía Total Generada Hoy", style={"color": "#000000"}),
             html.P(id="kpi-generacion", style={
@@ -116,63 +132,36 @@ app.layout = html.Div(
             })
         ], style={"textAlign": "center", "marginTop": "30px"}),
 
+        # Última actualización
         html.Div(id="ultima-actualizacion", style={
             "textAlign": "center", "marginTop": "20px", "fontSize": "12px", "color": "#777"
         }),
 
-        # Intervalo para refresco de datos (cada 5 min)
+        # Refrescar datos cada 5 minutos
         dcc.Interval(
-            id='interval-refresh',
-            interval=5 * 60 * 1000,
+            id='interval-component',
+            interval=5 * 60 * 1000,  # 5 minutos en milisegundos
             n_intervals=0
-        ),
-
-        # Intervalo para animación (cada 500ms)
-        dcc.Interval(
-            id='interval-pulso',
-            interval=500,
-            n_intervals=0
-        ),
-
-        # Almacenar estado de pulso (True/False alternado)
-        dcc.Store(id='pulso-estado', data=True)
+        )
     ]
 )
 
-# Refrescar figura con efecto pulso (cada 500ms)
+# Callback para actualizar datos
 @app.callback(
-    Output("grafico-generacion", "figure"),
-    Output("pulso-estado", "data"),
-    Input("interval-pulso", "n_intervals"),
-    State("pulso-estado", "data"),
-    prevent_initial_call=True
-)
-def actualizar_pulso(n, pulso_activo):
-    df = cargar_datos()
-    fig = crear_figura(df, pulso_activo)
-    return fig, not pulso_activo  # alternar estado
-
-# Refrescar datos cada 5 minutos (figura + kpi + timestamp)
-@app.callback(
-    Output("kpi-generacion", "children"),
-    Output("ultima-actualizacion", "children"),
-    Input("interval-refresh", "n_intervals")
+    [
+        Output("grafico-generacion", "figure"),
+        Output("kpi-generacion", "children"),
+        Output("ultima-actualizacion", "children")
+    ],
+    [Input("interval-component", "n_intervals")]
 )
 def actualizar_datos(n):
-    df = cargar_datos()
-    total = df["energia_MWh"].sum(skipna=True)
+    df_actual = cargar_datos()
+    fig = crear_figura(df_actual)
+    total = df_actual["energia_MWh"].sum(skipna=True)
     ahora = datetime.now(ZoneInfo('America/Bogota')).strftime('%Y-%m-%d %H:%M:%S')
-    return f"{total:.1f} MWh", f"Última actualización: {ahora} hora Colombia"
+    return fig, f"{total:.1f} MWh", f"Última actualización: {ahora} hora Colombia"
 
-# Cargar primer gráfico
-@app.callback(
-    Output("grafico-generacion", "figure"),
-    Input("grafico-generacion", "id")
-)
-def inicializar_grafico(_):
-    df = cargar_datos()
-    return crear_figura(df, pulso_activo=True)
-
-# Run server
+# Ejecutar app
 if __name__ == "__main__":
     app.run_server(debug=True)
