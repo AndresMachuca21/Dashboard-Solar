@@ -4,48 +4,72 @@ import plotly.express as px
 from dash import Dash, html, dcc
 import os
 
-# Cargar CSV
+# Leer CSV
 df = pd.read_csv("generacion_actual.csv", skiprows=1, sep=';')
-df["hora"] = pd.to_datetime(df["Ends dd/mm/YYYY HH:MM"], dayfirst=True).dt.strftime("%H:%M")
-df = df[["hora", "Power MW"]].copy()
-df.rename(columns={"Power MW": "energia_MWh"}, inplace=True)
+df["Ends"] = pd.to_datetime(df["Ends dd/mm/YYYY HH:MM"], dayfirst=True)
 
-# Filtrar solo datos del último día
-ultima_fecha = pd.to_datetime(df["hora"], format="%H:%M").max().date()
-df_filtrado = df.copy()
+# Filtrar solo el último día
+ultimo_dia = df["Ends"].dt.date.max()
+df_ultimo_dia = df[df["Ends"].dt.date == ultimo_dia].copy()
 
-# Gráfico
-fig = px.line(df_filtrado, x="hora", y="energia_MWh", title="Producción por hora")
+# Procesar columnas
+df_ultimo_dia["hora"] = df_ultimo_dia["Ends"].dt.strftime("%H:%M")
+df_ultimo_dia = df_ultimo_dia[["hora", "Power MW"]]
+df_ultimo_dia.rename(columns={"Power MW": "energia_MWh"}, inplace=True)
 
-# KPIs
-energia_total = df_filtrado["energia_MWh"].sum()
-max_row = df_filtrado.loc[df_filtrado["energia_MWh"].idxmax()]
-max_hora = max_row["hora"]
-max_valor = max_row["energia_MWh"]
+# Gráfico con estilo
+fig = px.line(
+    df_ultimo_dia,
+    x="hora",
+    y="energia_MWh",
+    title="Generación por hora",
+    markers=True,
+)
+fig.update_traces(line=dict(color="#84B113", width=3))
+fig.update_layout(
+    title_x=0.5,
+    plot_bgcolor="#F2F2F2",
+    paper_bgcolor="#FFFFFF",
+    font=dict(color="#000000", family="Arial"),
+    margin=dict(l=40, r=40, t=50, b=40),
+    xaxis_title="Hora",
+    yaxis_title="Energía (MWh)",
+)
 
-# App
+# KPI
+energia_total = df_ultimo_dia["energia_MWh"].sum()
+
+# App Dash
 app = Dash(__name__)
-server = app.server  # para Render
+server = app.server
 
-app.layout = html.Div(children=[
-    html.Img(src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Solar_panel_icon.svg/1200px-Solar_panel_icon.svg.png',
-             style={"height": "60px", "margin": "10px"}),
-
-    html.H1("Dashboard Planta Solar", style={"textAlign": "center"}),
-
-    dcc.Graph(figure=fig),
-
-    html.Div([
+app.layout = html.Div(
+    style={"fontFamily": "Arial, sans-serif", "padding": "30px", "backgroundColor": "#F2F2F2"},
+    children=[
         html.Div([
-            html.H4("Energía Total Generada"),
-            html.P(f"{energia_total:.1f} kWh")
-        ], style={"width": "30%", "display": "inline-block"}),
-    ], style={"textAlign": "center"}),
+            html.Img(
+                src="/assets/logo.png",  # 🔁 asegúrate de subir el logo en la carpeta 'assets'
+                style={"height": "60px", "marginRight": "15px"}
+            ),
+            html.H1("Dashboard Planta Solar", style={"margin": "0", "color": "#84B113"})
+        ], style={"display": "flex", "alignItems": "center", "marginBottom": "30px"}),
 
-    html.Div([
-        html.P(f"Última actualización: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    ], style={"textAlign": "center", "marginTop": "20px"})
-])
+        dcc.Graph(figure=fig),
+
+        html.Div([
+            html.H4("Energía Total Generada Hoy", style={"color": "#000000"}),
+            html.P(f"{energia_total:.1f} kWh", style={
+                "fontSize": "32px",
+                "fontWeight": "bold",
+                "color": "#84B113"
+            })
+        ], style={"textAlign": "center", "marginTop": "30px"}),
+
+        html.Div([
+            html.P(f"Última actualización: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC-5")
+        ], style={"textAlign": "center", "marginTop": "20px", "fontSize": "12px", "color": "#777"})
+    ]
+)
 
 if __name__ == "__main__":
     app.run_server(debug=True)
