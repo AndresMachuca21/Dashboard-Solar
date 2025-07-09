@@ -48,7 +48,7 @@ def crear_figura(df):
         title_x=0.5,
         title_font_color="#000000",
         plot_bgcolor="#F2F2F2",
-        paper_bgcolor="#FFFFFF",
+        paper_bgcolor="#F2F2F2",
         font=dict(color="#000000", family="Arial"),
         margin=dict(l=40, r=40, t=50, b=40),
         xaxis_title="Hora",
@@ -66,9 +66,9 @@ app.layout = html.Div(
         html.Div([
             html.Img(
                 src="/assets/logo.png",
-                style={"height": "40px", "marginRight": "15px"}
+                style={"height": "40px", "marginLeft": "15px"}
             ),
-            html.H1("Dashboard Planta Solar", style={"margin": "0", "color": "#84B113"})
+            html.H1("Dashboard Planta Solar", style={"margin": "0", "color": "#000000"})
         ], style={"display": "flex", "alignItems": "center", "marginBottom": "30px", "justifyContent": "flex-start"}),
 
         dcc.Graph(id="grafico-generacion", figure=crear_figura(df_ultimo)),
