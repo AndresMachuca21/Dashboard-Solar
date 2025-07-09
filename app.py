@@ -1,5 +1,6 @@
 import pandas as pd
 from datetime import datetime
+from zoneinfo import ZoneInfo
 import plotly.express as px
 from dash import Dash, html, dcc
 import os
@@ -8,12 +9,20 @@ import os
 df = pd.read_csv("generacion_actual.csv", skiprows=1, sep=';')
 df["Ends"] = pd.to_datetime(df["Ends dd/mm/YYYY HH:MM"], dayfirst=True)
 
-# Filtrar solo el último día
-ultimo_dia = df["Ends"].dt.date.max()
-df_ultimo_dia = df[df["Ends"].dt.date == ultimo_dia].copy()
+# Convertir a hora Colombia (UTC-5)
+df["Ends_col"] = df["Ends"].dt.tz_localize("UTC").dt.tz_convert("America/Bogota")
+df["hora"] = df["Ends_col"].dt.strftime("%H:%M")
 
-# Procesar columnas
-df_ultimo_dia["hora"] = df_ultimo_dia["Ends"].dt.strftime("%H:%M")
+# Filtrar solo el último día en Colombia
+ultimo_dia = df["Ends_col"].dt.date.max()
+df_ultimo_dia = df[df["Ends_col"].dt.date == ultimo_dia].copy()
+
+# Limitar entre 06:00 y 19:00
+df_ultimo_dia = df_ultimo_dia[
+    (df_ultimo_dia["Ends_col"].dt.hour >= 6) & (df_ultimo_dia["Ends_col"].dt.hour <= 19)
+]
+
+# Preparar columnas
 df_ultimo_dia = df_ultimo_dia[["hora", "Power MW"]]
 df_ultimo_dia.rename(columns={"Power MW": "energia_MWh"}, inplace=True)
 
@@ -22,18 +31,21 @@ fig = px.line(
     df_ultimo_dia,
     x="hora",
     y="energia_MWh",
-    title="Generación por hora",
+    title="Generación Sunnorte",
     markers=True,
 )
+
 fig.update_traces(line=dict(color="#84B113", width=3))
 fig.update_layout(
     title_x=0.5,
+    title_font_color="#000000",
     plot_bgcolor="#F2F2F2",
     paper_bgcolor="#FFFFFF",
     font=dict(color="#000000", family="Arial"),
     margin=dict(l=40, r=40, t=50, b=40),
     xaxis_title="Hora",
     yaxis_title="Energía (MWh)",
+    xaxis=dict(range=["06:00", "19:00"])
 )
 
 # KPI
@@ -48,7 +60,7 @@ app.layout = html.Div(
     children=[
         html.Div([
             html.Img(
-                src="/assets/logo.png",  # 🔁 asegúrate de subir el logo en la carpeta 'assets'
+                src="/assets/logo.png",
                 style={"height": "60px", "marginRight": "15px"}
             ),
             html.H1("Dashboard Planta Solar", style={"margin": "0", "color": "#84B113"})
@@ -66,7 +78,7 @@ app.layout = html.Div(
         ], style={"textAlign": "center", "marginTop": "30px"}),
 
         html.Div([
-            html.P(f"Última actualización: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC-5")
+            html.P(f"Última actualización: {datetime.now(ZoneInfo('America/Bogota')).strftime('%Y-%m-%d %H:%M:%S')} hora Colombia")
         ], style={"textAlign": "center", "marginTop": "20px", "fontSize": "12px", "color": "#777"})
     ]
 )
