@@ -23,14 +23,14 @@ def cargar_datos():
 
     return df_final
 
-# Función para crear la figura con pulso
+# Función para crear figura animada sin botón visible
 def crear_figura(df):
     hora_final = df["hora"][df["energia_MWh"].last_valid_index()]
     valor_final = df["energia_MWh"].dropna().iloc[-1]
 
     fig = go.Figure()
 
-    # Línea principal
+    # Línea base
     fig.add_trace(go.Scatter(
         x=df["hora"],
         y=df["energia_MWh"],
@@ -40,7 +40,7 @@ def crear_figura(df):
         showlegend=False
     ))
 
-    # Punto con animación (pulso)
+    # Punto animado ON
     frame_on = go.Scatter(
         x=[hora_final],
         y=[valor_final],
@@ -49,6 +49,7 @@ def crear_figura(df):
         showlegend=False
     )
 
+    # Punto animado OFF
     frame_off = go.Scatter(
         x=[hora_final],
         y=[valor_final],
@@ -57,51 +58,42 @@ def crear_figura(df):
         showlegend=False
     )
 
-    # Agregar punto inicial
+    # Agregar primer punto
     fig.add_trace(frame_on)
 
-    # Agregar frames para animación
+    # Agregar animación
     fig.frames = [
         go.Frame(data=[frame_on], name="pulse-on"),
         go.Frame(data=[frame_off], name="pulse-off")
     ]
 
-    # Botón de animación (oculto pero inicia el ciclo)
+    # Configurar animación automática al cargar
     fig.update_layout(
-        updatemenus=[dict(
-            type="buttons",
-            showactive=False,
-            buttons=[dict(
-                label="Play",
-                method="animate",
-                args=[None, {
-                    "frame": {"duration": 500, "redraw": True},
-                    "fromcurrent": True,
-                    "transition": {"duration": 0}
-                }]
-            )]
-        )],
-        xaxis_title=None,
+        xaxis_title="Hora",
         yaxis_title="Energía (MWh)",
         xaxis=dict(
             categoryorder='array',
             categoryarray=df["hora"].tolist(),
             showgrid=True,
-            gridcolor="#CCCCCC"
+            gridcolor="#DDDDDD",
+            showline=True,
+            linecolor="#000000"
         ),
         yaxis=dict(
-            showgrid=True,
-            gridcolor="#CCCCCC"
+            showgrid=False,
+            zeroline=False
         ),
         plot_bgcolor="#F2F2F2",
         paper_bgcolor="#F2F2F2",
         font=dict(color="#000000", family="Arial"),
         margin=dict(l=40, r=40, t=50, b=40),
+        updatemenus=[],  # ← elimina el botón de animación
+        sliders=[]       # ← elimina slider si existía
     )
 
     return fig
 
-# Inicializar app
+# App Dash
 app = Dash(__name__)
 server = app.server
 
@@ -127,7 +119,7 @@ app.layout = html.Div(
             "marginBottom": "40px"
         }),
 
-        # Gráfico
+        # Gráfico animado
         dcc.Graph(id="grafico-generacion", figure=crear_figura(cargar_datos()), animate=True),
 
         # KPI
@@ -145,16 +137,16 @@ app.layout = html.Div(
             "textAlign": "center", "marginTop": "20px", "fontSize": "12px", "color": "#777"
         }),
 
-        # Intervalo de refresco
+        # Refrescar datos cada 5 minutos
         dcc.Interval(
             id='interval-component',
-            interval=5 * 60 * 1000,  # 5 minutos
+            interval=5 * 60 * 1000,  # 5 minutos en milisegundos
             n_intervals=0
         )
     ]
 )
 
-# Callback para refrescar datos
+# Callback para actualizar datos
 @app.callback(
     [
         Output("grafico-generacion", "figure"),
@@ -168,7 +160,7 @@ def actualizar_datos(n):
     fig = crear_figura(df_actual)
     total = df_actual["energia_MWh"].sum(skipna=True)
     ahora = datetime.now(ZoneInfo('America/Bogota')).strftime('%Y-%m-%d %H:%M:%S')
-    return fig, f"{total:.1f} kWh", f"Última actualización: {ahora} hora Colombia"
+    return fig, f"{total:.1f} MWh", f"Última actualización: {ahora} hora Colombia"
 
 # Ejecutar app
 if __name__ == "__main__":
