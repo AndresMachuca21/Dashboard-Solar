@@ -23,7 +23,7 @@ def cargar_datos():
 
     return df_final
 
-# Función para crear gráfico con pulso
+# Función para crear figura con efecto pulso
 def crear_figura(df, pulso_on):
     hora_final = df["hora"][df["energia_MWh"].last_valid_index()]
     valor_final = df["energia_MWh"].dropna().iloc[-1]
@@ -39,7 +39,7 @@ def crear_figura(df, pulso_on):
         showlegend=False
     ))
 
-    # Pulso visual
+    # Punto con pulso
     size = 12 if pulso_on else 8
     opacity = 1 if pulso_on else 0.4
 
@@ -75,7 +75,7 @@ def crear_figura(df, pulso_on):
 
     return fig
 
-# Inicializar Dash
+# Inicializar la app
 app = Dash(__name__)
 server = app.server
 
@@ -99,7 +99,7 @@ app.layout = html.Div(
         }),
         dcc.Graph(id="grafico-generacion", config={"displayModeBar": False}),
         html.Div([
-            html.H4("Energía Total Generada Hoy", style={"color": "#000000"}),
+            html.H4("Producción acumulada", style={"color": "#000000"}),
             html.P(id="kpi-generacion", style={
                 "fontSize": "32px",
                 "fontWeight": "bold",
@@ -109,26 +109,40 @@ app.layout = html.Div(
         html.Div(id="ultima-actualizacion", style={
             "textAlign": "center", "marginTop": "20px", "fontSize": "12px", "color": "#777"
         }),
-        dcc.Interval(id='interval-refresh', interval=60*1000, n_intervals=0),
-        dcc.Store(id='pulso-estado', data=True)
+        dcc.Interval(id='interval-refresh', interval=60*1000, n_intervals=0),  # cada minuto
+        dcc.Interval(id='interval-pulse', interval=500, n_intervals=0),        # cada 0.5s
+        dcc.Store(id='pulso-estado', data=True),
+        dcc.Store(id='datos-generacion')  # datos compartidos
     ]
 )
 
-# ÚNICO CALLBACK para actualizar todo
+# Callback para cargar datos cada minuto
 @app.callback(
-    Output("grafico-generacion", "figure"),
-    Output("kpi-generacion", "children"),
-    Output("ultima-actualizacion", "children"),
-    Output("pulso-estado", "data"),
-    Input("interval-refresh", "n_intervals"),
-    State("pulso-estado", "data")
+    Output('datos-generacion', 'data'),
+    Output('kpi-generacion', 'children'),
+    Output('ultima-actualizacion', 'children'),
+    Input('interval-refresh', 'n_intervals')
 )
-def actualizar_todo(n, pulso_on):
+def actualizar_datos(n):
     df = cargar_datos()
-    fig = crear_figura(df, pulso_on)
-    total = df["energia_MWh"].sum(skipna=True)
     ahora = datetime.now(ZoneInfo('America/Bogota')).strftime('%Y-%m-%d %H:%M:%S')
-    return fig, f"{total:.1f} MWh", f"Última actualización: {ahora} hora Colombia", not pulso_on
+    total = df["energia_MWh"].sum(skipna=True)
+    return df.to_dict('records'), f"{total:.1f} MWh", f"Última actualización: {ahora} hora Colombia"
+
+# Callback para animar el gráfico con pulso cada 0.5s
+@app.callback(
+    Output('grafico-generacion', 'figure'),
+    Output('pulso-estado', 'data'),
+    Input('interval-pulse', 'n_intervals'),
+    State('pulso-estado', 'data'),
+    State('datos-generacion', 'data')
+)
+def actualizar_grafico(n_pulse, pulso_on, data):
+    if data is None:
+        return go.Figure(), pulso_on
+    df = pd.DataFrame(data)
+    fig = crear_figura(df, pulso_on)
+    return fig, not pulso_on
 
 if __name__ == "__main__":
     app.run_server(debug=True)
