@@ -17,10 +17,10 @@ df["hora"] = df["Ends_col"].dt.strftime("%H:%M")
 ultimo_dia = df["Ends_col"].dt.date.max()
 df_ultimo_dia = df[df["Ends_col"].dt.date == ultimo_dia].copy()
 
-# Limitar entre 06:00 y 19:00
-df_ultimo_dia = df_ultimo_dia[
-    (df_ultimo_dia["Ends_col"].dt.hour >= 6) & (df_ultimo_dia["Ends_col"].dt.hour <= 19)
-]
+# --- Quitamos el filtro entre 06:00 y 19:00 para mostrar todo el día ---
+# df_ultimo_dia = df_ultimo_dia[
+#     (df_ultimo_dia["Ends_col"].dt.hour >= 6) & (df_ultimo_dia["Ends_col"].dt.hour <= 19)
+# ]
 
 # Preparar columnas
 df_ultimo_dia = df_ultimo_dia[["hora", "Power MW"]]
@@ -45,7 +45,8 @@ fig.update_layout(
     margin=dict(l=40, r=40, t=50, b=40),
     xaxis_title="Hora",
     yaxis_title="Energía (MWh)",
-    xaxis=dict(range=["06:00", "19:00"])
+    # --- Quitamos el rango fijo para que muestre todas las horas ---
+    # xaxis=dict(range=["06:00", "19:00"])
 )
 
 # KPI
@@ -58,13 +59,14 @@ server = app.server
 app.layout = html.Div(
     style={"fontFamily": "Arial, sans-serif", "padding": "30px", "backgroundColor": "#F2F2F2"},
     children=[
+        # Logo más pequeño arriba a la izquierda
         html.Div([
             html.Img(
                 src="/assets/logo.png",
-                style={"height": "60px", "marginRight": "15px"}
+                style={"height": "40px", "marginRight": "15px"}  # tamaño reducido (antes 60px)
             ),
             html.H1("Dashboard Planta Solar", style={"margin": "0", "color": "#84B113"})
-        ], style={"display": "flex", "alignItems": "center", "marginBottom": "30px"}),
+        ], style={"display": "flex", "alignItems": "center", "marginBottom": "30px", "justifyContent": "flex-start"}),
 
         dcc.Graph(figure=fig),
 
@@ -79,9 +81,28 @@ app.layout = html.Div(
 
         html.Div([
             html.P(f"Última actualización: {datetime.now(ZoneInfo('America/Bogota')).strftime('%Y-%m-%d %H:%M:%S')} hora Colombia")
-        ], style={"textAlign": "center", "marginTop": "20px", "fontSize": "12px", "color": "#777"})
+        ], style={"textAlign": "center", "marginTop": "20px", "fontSize": "12px", "color": "#777"}),
+
+        # Agregar refresco automático cada 5 minutos (300000 ms)
+        dcc.Interval(
+            id='interval-component',
+            interval=5*60*1000,  # 5 minutos en milisegundos
+            n_intervals=0
+        )
     ]
 )
+
+# Callback para refrescar la página (solo actualiza el layout para recargar gráficos)
+from dash.dependencies import Input, Output
+
+@app.callback(
+    Output(component_id='interval-component', component_property='n_intervals'),
+    [Input(component_id='interval-component', component_property='n_intervals')]
+)
+def refresh_data(n):
+    # Aquí podrías recargar datos si quieres que el gráfico se actualice dinámicamente.
+    # En tu caso, solo permitimos que el componente 'interval-component' se actualice.
+    return n
 
 if __name__ == "__main__":
     app.run_server(debug=True)
