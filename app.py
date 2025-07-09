@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 from dash import Dash, html, dcc
 from dash.dependencies import Input, Output
 
+# Función para cargar datos
 def cargar_datos():
     df = pd.read_csv("generacion_actual.csv", skiprows=1, sep=';')
     df["Ends"] = pd.to_datetime(df["Ends dd/mm/YYYY HH:MM"], dayfirst=True)
@@ -22,10 +23,14 @@ def cargar_datos():
 
     return df_final
 
+# Función para crear la figura con pulso
 def crear_figura(df):
+    hora_final = df["hora"][df["energia_MWh"].last_valid_index()]
+    valor_final = df["energia_MWh"].dropna().iloc[-1]
+
     fig = go.Figure()
 
-    # Línea principal sin leyenda
+    # Línea principal
     fig.add_trace(go.Scatter(
         x=df["hora"],
         y=df["energia_MWh"],
@@ -35,27 +40,48 @@ def crear_figura(df):
         showlegend=False
     ))
 
-    # Punto final parpadeante sin leyenda
-    ultimo_valor = df["energia_MWh"].dropna().iloc[-1]
-    ultima_hora = df["hora"][df["energia_MWh"].last_valid_index()]
-
-    fig.add_trace(go.Scatter(
-        x=[ultima_hora],
-        y=[ultimo_valor],
+    # Punto con animación (pulso)
+    frame_on = go.Scatter(
+        x=[hora_final],
+        y=[valor_final],
         mode="markers",
-        marker=dict(
-            size=14,
-            color="#84B113",
-            opacity=1,
-            line=dict(color="#000", width=2),
-            symbol="circle"
-        ),
+        marker=dict(size=18, color="#84B113", opacity=1, line=dict(color="#000", width=2)),
         showlegend=False
-    ))
+    )
 
+    frame_off = go.Scatter(
+        x=[hora_final],
+        y=[valor_final],
+        mode="markers",
+        marker=dict(size=8, color="#84B113", opacity=0.2),
+        showlegend=False
+    )
+
+    # Agregar punto inicial
+    fig.add_trace(frame_on)
+
+    # Agregar frames para animación
+    fig.frames = [
+        go.Frame(data=[frame_on], name="pulse-on"),
+        go.Frame(data=[frame_off], name="pulse-off")
+    ]
+
+    # Botón de animación (oculto pero inicia el ciclo)
     fig.update_layout(
-        title=None,
-        xaxis_title="Hora",
+        updatemenus=[dict(
+            type="buttons",
+            showactive=False,
+            buttons=[dict(
+                label="Play",
+                method="animate",
+                args=[None, {
+                    "frame": {"duration": 500, "redraw": True},
+                    "fromcurrent": True,
+                    "transition": {"duration": 0}
+                }]
+            )]
+        )],
+        xaxis_title=None,
         yaxis_title="Energía (MWh)",
         xaxis=dict(
             categoryorder='array',
@@ -75,6 +101,7 @@ def crear_figura(df):
 
     return fig
 
+# Inicializar app
 app = Dash(__name__)
 server = app.server
 
@@ -93,14 +120,17 @@ app.layout = html.Div(
             }
         ),
 
+        # Título principal
         html.H1("Generación Sunnorte", style={
             "textAlign": "center",
             "color": "#000000",
             "marginBottom": "40px"
         }),
 
-        dcc.Graph(id="grafico-generacion", figure=crear_figura(cargar_datos())),
+        # Gráfico
+        dcc.Graph(id="grafico-generacion", figure=crear_figura(cargar_datos()), animate=True),
 
+        # KPI
         html.Div([
             html.H4("Energía Total Generada Hoy", style={"color": "#000000"}),
             html.P(id="kpi-generacion", style={
@@ -110,18 +140,21 @@ app.layout = html.Div(
             })
         ], style={"textAlign": "center", "marginTop": "30px"}),
 
+        # Última actualización
         html.Div(id="ultima-actualizacion", style={
             "textAlign": "center", "marginTop": "20px", "fontSize": "12px", "color": "#777"
         }),
 
+        # Intervalo de refresco
         dcc.Interval(
             id='interval-component',
-            interval=5 * 60 * 1000,
+            interval=5 * 60 * 1000,  # 5 minutos
             n_intervals=0
         )
     ]
 )
 
+# Callback para refrescar datos
 @app.callback(
     [
         Output("grafico-generacion", "figure"),
@@ -137,5 +170,6 @@ def actualizar_datos(n):
     ahora = datetime.now(ZoneInfo('America/Bogota')).strftime('%Y-%m-%d %H:%M:%S')
     return fig, f"{total:.1f} kWh", f"Última actualización: {ahora} hora Colombia"
 
+# Ejecutar app
 if __name__ == "__main__":
     app.run_server(debug=True)
