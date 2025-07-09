@@ -41,7 +41,7 @@ def crear_figura(df, pulso_on):
     ))
 
     # Punto último con pulso alternando tamaño y opacidad
-    size = 20 if pulso_on else 12
+    size = 12 if pulso_on else 8
     opacity = 1 if pulso_on else 0.4
 
     fig.add_trace(go.Scatter(
@@ -50,8 +50,7 @@ def crear_figura(df, pulso_on):
         mode="markers",
         marker=dict(
             size=size,
-            color="#FFFFFF",
-            line=dict(color="#84B113", width=4),
+            color="#84B113",
             opacity=opacity,
             symbol="circle"
         ),
@@ -72,7 +71,7 @@ def crear_figura(df, pulso_on):
             showgrid=True,
             gridcolor="#DDDDDD",
             zeroline=False,
-            range=[0, 35]
+            range=[0, 36]
         ),
         plot_bgcolor="#F2F2F2",
         paper_bgcolor="#F2F2F2",
