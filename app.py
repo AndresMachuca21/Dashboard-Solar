@@ -23,10 +23,14 @@ def cargar_datos():
 
     return df_final
 
-# Función para crear figura con pulso
+# Función para crear figura con pulso en último punto
 def crear_figura(df, pulso_on):
+    hora_final = df["hora"][df["energia_MWh"].last_valid_index()]
+    valor_final = df["energia_MWh"].dropna().iloc[-1]
+
     fig = go.Figure()
 
+    # Línea base
     fig.add_trace(go.Scatter(
         x=df["hora"],
         y=df["energia_MWh"],
@@ -36,21 +40,22 @@ def crear_figura(df, pulso_on):
         showlegend=False
     ))
 
-    idx = df["energia_MWh"].last_valid_index()
-    if idx is not None:
-        hora_final = df.loc[idx, "hora"]
-        valor_final = df.loc[idx, "energia_MWh"]
+    # Punto último con pulso alternando tamaño y opacidad
+    size = 12 if pulso_on else 8
+    opacity = 1 if pulso_on else 0.4
 
-        size = 12 if pulso_on else 8
-        opacity = 1 if pulso_on else 0.4
-
-        fig.add_trace(go.Scatter(
-            x=[hora_final],
-            y=[valor_final],
-            mode="markers",
-            marker=dict(size=size, color="#84B113", opacity=opacity),
-            showlegend=False
-        ))
+    fig.add_trace(go.Scatter(
+        x=[hora_final],
+        y=[valor_final],
+        mode="markers",
+        marker=dict(
+            size=size,
+            color="#84B113",
+            opacity=opacity,
+            symbol="circle"
+        ),
+        showlegend=False
+    ))
 
     fig.update_layout(
         xaxis_title="Hora",
@@ -83,6 +88,7 @@ server = app.server
 app.layout = html.Div(
     style={"position": "relative", "fontFamily": "Arial, sans-serif", "padding": "30px", "backgroundColor": "#F2F2F2"},
     children=[
+        # Logo arriba a la derecha
         html.Img(
             src="/assets/logo.png",
             style={
@@ -93,14 +99,18 @@ app.layout = html.Div(
                 "zIndex": "10"
             }
         ),
+
+        # Título principal
         html.H1("Generación Sunnorte", style={
             "textAlign": "center",
             "color": "#000000",
             "marginBottom": "40px"
         }),
 
+        # Gráfico con id para actualizar
         dcc.Graph(id="grafico-generacion", config={"displayModeBar": False}),
 
+        # KPI
         html.Div([
             html.H4("Energía Total Generada Hoy", style={"color": "#000000"}),
             html.P(id="kpi-generacion", style={
@@ -110,49 +120,47 @@ app.layout = html.Div(
             })
         ], style={"textAlign": "center", "marginTop": "30px"}),
 
+        # Última actualización
         html.Div(id="ultima-actualizacion", style={
             "textAlign": "center", "marginTop": "20px", "fontSize": "12px", "color": "#777"
         }),
 
-        # Intervalos
+        # Intervalo para refresco de datos cada 5 minutos
         dcc.Interval(id='interval-refresh', interval=5*60*1000, n_intervals=0),
+
+        # Intervalo para animación cada 500 ms
         dcc.Interval(id='interval-pulse', interval=1000, n_intervals=0),
 
-        # Estados
-        dcc.Store(id='pulso-estado', data=True),
-        dcc.Store(id='datos-guardados')
+        # Guardar estado del pulso
+        dcc.Store(id='pulso-estado', data=True)
     ]
 )
 
-# Callback: Recarga datos cada 5 minutos
-@app.callback(
-    Output("datos-guardados", "data"),
-    Output("kpi-generacion", "children"),
-    Output("ultima-actualizacion", "children"),
-    Input("interval-refresh", "n_intervals")
-)
-def recargar_datos(n):
-    df = cargar_datos()
-    total = df["energia_MWh"].sum(skipna=True)
-    ahora = datetime.now(ZoneInfo('America/Bogota')).strftime('%Y-%m-%d %H:%M:%S')
-    return df.to_json(date_format="iso", orient="split"), f"{total:.1f} MWh", f"Última actualización: {ahora} hora Colombia"
-
-# Callback: Actualiza gráfico con efecto pulso
+# Callback para actualizar gráfico con efecto pulso
 @app.callback(
     Output("grafico-generacion", "figure"),
     Output("pulso-estado", "data"),
     Input("interval-pulse", "n_intervals"),
     State("pulso-estado", "data"),
-    State("datos-guardados", "data")
+    State("interval-refresh", "n_intervals")
 )
-def actualizar_grafico_pulso(n_pulse, pulso_on, datos_guardados):
-    if datos_guardados is None:
-        return go.Figure(), pulso_on  # evitar error en primer ciclo
-
-    df = pd.read_json(datos_guardados, orient="split")
+def actualizar_grafico_pulso(n_pulse, pulso_on, n_refresh):
+    df = cargar_datos()
     fig = crear_figura(df, pulso_on)
     return fig, not pulso_on
 
-# Ejecutar app
+# Callback para actualizar KPI y última actualización cada 5 minutos
+@app.callback(
+    Output("kpi-generacion", "children"),
+    Output("ultima-actualizacion", "children"),
+    Input("interval-refresh", "n_intervals")
+)
+def actualizar_kpi(n):
+    df = cargar_datos()
+    total = df["energia_MWh"].sum(skipna=True)
+    ahora = datetime.now(ZoneInfo('America/Bogota')).strftime('%Y-%m-%d %H:%M:%S')
+    return f"{total:.1f} MWh", f"Última actualización: {ahora} hora Colombia"
+
+
 if __name__ == "__main__":
     app.run_server(debug=True)
