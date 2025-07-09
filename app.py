@@ -104,7 +104,7 @@ app.layout = html.Div(
         html.H1("Generación Sunnorte", style={
             "textAlign": "center",
             "color": "#000000",
-            "marginBottom": "10px"
+            "marginBottom": "100px"
         }),
 
         # Gráfico con id para actualizar
