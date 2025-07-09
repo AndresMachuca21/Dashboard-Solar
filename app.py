@@ -23,8 +23,11 @@ def cargar_datos():
 
     return df_final
 
-# Función para crear figura con efecto pulso
+# Función para crear la figura con efecto pulso
 def crear_figura(df, pulso_on):
+    if df["energia_MWh"].dropna().empty:
+        return go.Figure()
+
     hora_final = df["hora"][df["energia_MWh"].last_valid_index()]
     valor_final = df["energia_MWh"].dropna().iloc[-1]
 
@@ -39,7 +42,6 @@ def crear_figura(df, pulso_on):
         showlegend=False
     ))
 
-    # Punto con pulso
     size = 12 if pulso_on else 8
     opacity = 1 if pulso_on else 0.4
 
@@ -110,13 +112,13 @@ app.layout = html.Div(
             "textAlign": "center", "marginTop": "20px", "fontSize": "12px", "color": "#777"
         }),
         dcc.Interval(id='interval-refresh', interval=60*1000, n_intervals=0),  # cada minuto
-        dcc.Interval(id='interval-pulse', interval=500, n_intervals=0),        # cada 0.5s
+        dcc.Interval(id='interval-pulse', interval=1000, n_intervals=0),       # cada 1 segundo
         dcc.Store(id='pulso-estado', data=True),
-        dcc.Store(id='datos-generacion')  # datos compartidos
+        dcc.Store(id='datos-generacion')
     ]
 )
 
-# Callback para cargar datos cada minuto
+# Callback que actualiza datos, KPI y hora cada minuto
 @app.callback(
     Output('datos-generacion', 'data'),
     Output('kpi-generacion', 'children'),
@@ -129,7 +131,7 @@ def actualizar_datos(n):
     total = df["energia_MWh"].sum(skipna=True)
     return df.to_dict('records'), f"{total:.1f} MWh", f"Última actualización: {ahora} hora Colombia"
 
-# Callback para animar el gráfico con pulso cada 0.5s
+# Callback que actualiza la gráfica con efecto pulso cada segundo
 @app.callback(
     Output('grafico-generacion', 'figure'),
     Output('pulso-estado', 'data'),
@@ -138,9 +140,12 @@ def actualizar_datos(n):
     State('datos-generacion', 'data')
 )
 def actualizar_grafico(n_pulse, pulso_on, data):
-    if data is None:
+    if not data or not isinstance(data, list):
         return go.Figure(), pulso_on
-    df = pd.DataFrame(data)
+    try:
+        df = pd.DataFrame(data)
+    except Exception:
+        return go.Figure(), pulso_on
     fig = crear_figura(df, pulso_on)
     return fig, not pulso_on
 
