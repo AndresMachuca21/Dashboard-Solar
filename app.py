@@ -112,22 +112,13 @@ app.layout = html.Div(
 
         # KPI
         html.Div([
-            html.H4("Generación acumulada", style={
-                "color": "#000000",
-                "margin": "0"
-            }),
+            html.H4("Energía Total Generada Hoy", style={"color": "#000000"}),
             html.P(id="kpi-generacion", style={
                 "fontSize": "32px",
                 "fontWeight": "bold",
-                "color": "#84B113",
-                "margin": "0"
+                "color": "#84B113"
             })
-        ], style={
-            "textAlign": "center",      # Centra el texto dentro del contenedor
-            "marginTop": "30px",
-            "marginLeft": "50px",       # Mueve el contenedor un poco a la derecha
-            "width": "fit-content"      # Para que el contenedor se ajuste a su contenido
-        }),
+        ], style={"textAlign": "center", "marginTop": "30px"}),
 
         # Última actualización
         html.Div(id="ultima-actualizacion", style={
