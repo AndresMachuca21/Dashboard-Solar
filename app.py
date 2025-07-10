@@ -117,7 +117,7 @@ app.layout = html.Div(
             src="/assets/gif_colombia.gif",
             style={
                 "position": "absolute",
-                "bottom": "25px",
+                "bottom": "10px",
                 "right": "30px",
                 "height": "140px",
                 "zIndex": "1000"
@@ -143,7 +143,7 @@ app.layout = html.Div(
         }),
         
         # Gráfico de generación
-        dcc.Graph(id="grafico-generacion", config={"displayModeBar": False},style={"width": "100%", "height": "40vh"}),
+        dcc.Graph(id="grafico-generacion", config={"displayModeBar": False},style={"width": "100%", "height": "50vh"}),
         
         #KPI
         html.Div([
@@ -158,7 +158,7 @@ app.layout = html.Div(
         
         # Última actualización
         html.Div(id="ultima-actualizacion", style={
-            "textAlign": "center", "marginTop": "60px", "fontSize": "12px", "color": "#777"
+            "textAlign": "center", "marginTop": "20px", "fontSize": "12px", "color": "#777"
         }),
 
         # Intervalos para actualización y efecto pulso
