@@ -86,7 +86,7 @@ def crear_figura(df, pulso_on):
         plot_bgcolor="#F2F2F2",
         paper_bgcolor="#F2F2F2",
         font=dict(color="#000000", family="Arial"),
-        margin=dict(l=40, r=40, t=10, b=20),
+        margin=dict(l=40, r=40, t=10, b=10),
     )
 
     return fig
