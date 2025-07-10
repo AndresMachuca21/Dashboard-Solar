@@ -86,7 +86,7 @@ def crear_figura(df, pulso_on):
         plot_bgcolor="#F2F2F2",
         paper_bgcolor="#F2F2F2",
         font=dict(color="#000000", family="Arial"),
-        margin=dict(l=40, r=40, t=10, b=10),
+        margin=dict(l=40, r=40, t=10, b=0),
     )
 
     return fig
@@ -119,7 +119,7 @@ app.layout = html.Div(
                 "position": "absolute",
                 "bottom": "10px",
                 "right": "30px",
-                "height": "140px",
+                "height": "120px",
                 "zIndex": "1000"
             }
         ),
@@ -143,22 +143,22 @@ app.layout = html.Div(
         }),
         
         # Gráfico de generación
-        dcc.Graph(id="grafico-generacion", config={"displayModeBar": False},style={"width": "100%", "height": "55vh"}),
+        dcc.Graph(id="grafico-generacion", config={"displayModeBar": False},style={"width": "100%", "height": "54vh"}),
         
         #KPI
         html.Div([
-            html.H4("Producción acumulada", style={ "fontSize": "20px","color": "#000000","marginBottom": "10px"}),
+            html.H4("Producción acumulada", style={ "fontSize": "20px","color": "#000000","marginBottom": "5px"}),
             html.P(id="kpi-generacion", style={
                 "fontSize": "32px",
                 #"fontWeight": "bold",
                 "color": "#84B113",
-                "marginTop": "10px"
+                "marginTop": "5px"
             })
-        ], style={"textAlign": "center", "marginTop": "20px"}),
+        ], style={"textAlign": "center", "marginTop": "0px", "marginBottom": "0px"}),
         
         # Última actualización
         html.Div(id="ultima-actualizacion", style={
-            "textAlign": "center", "marginTop": "20px", "fontSize": "12px", "color": "#777"
+            "textAlign": "center", "marginTop": "0px", "fontSize": "12px", "color": "#777"
         }),
 
         # Intervalos para actualización y efecto pulso
