@@ -96,7 +96,7 @@ app = Dash(__name__)
 server = app.server
 
 app.layout = html.Div(
-    style={"position": "relative", "fontFamily": "Sans serif, Roboto", "padding": "35px", "backgroundColor": "#F2F2F2",
+    style={"position": "relative", "fontFamily": "Sans serif, Roboto", "padding": "10px", "backgroundColor": "#F2F2F2",
            "maxWidth": "100%", "overflowX": "hidden"},
     children=[
         
@@ -105,9 +105,9 @@ app.layout = html.Div(
             src="/assets/logo.png",
             style={
                 "position": "absolute",
-                "top": "20px",
-                "right": "30px",
-                "height": "40px",
+                "top": "10px",
+                "right": "10px",
+                "height": "20px",
                 "zIndex": "10"
             }
         ),
@@ -143,7 +143,7 @@ app.layout = html.Div(
         }),
         
         # Gráfico de generación
-        dcc.Graph(id="grafico-generacion", config={"displayModeBar": False},style={"width": "100%", "height": "60vh"}),
+        dcc.Graph(id="grafico-generacion", config={"displayModeBar": False},style={"width": "100%", "height": "40vh"}),
         
         #KPI
         html.Div([
@@ -154,7 +154,7 @@ app.layout = html.Div(
                 "color": "#84B113",
                 "marginTop": "10px"
             })
-        ], style={"textAlign": "center", "marginTop": "30px"}),
+        ], style={"textAlign": "center", "marginTop": "20px"}),
         
         # Última actualización
         html.Div(id="ultima-actualizacion", style={
