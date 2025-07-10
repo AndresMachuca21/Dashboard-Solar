@@ -158,7 +158,7 @@ app.layout = html.Div(
         
         # Última actualización
         html.Div(id="ultima-actualizacion", style={
-            "textAlign": "center", "marginTop": "0px", "fontSize": "12px", "color": "#777"
+            "textAlign": "center", "marginTop": "-10px", "fontSize": "12px", "color": "#777"
         }),
 
         # Intervalos para actualización y efecto pulso
