@@ -40,6 +40,8 @@ def crear_figura(df, pulso_on):
         mode="lines+markers",
         line=dict(color="#84B113", width=3),
         marker=dict(size=6, color="#84B113"),
+        fill='tozeroy',  # ← Esto crea el área debajo
+        fillcolor='rgba(132, 177, 19, 0.05)',  # ← Color degradado simulando sombra
         showlegend=False
     ))
 
