@@ -143,7 +143,7 @@ app.layout = html.Div(
         }),
         
         # Gráfico de generación
-        dcc.Graph(id="grafico-generacion", config={"displayModeBar": False},style={"width": "100%", "height": "50vh"}),
+        dcc.Graph(id="grafico-generacion", config={"displayModeBar": False},style={"width": "100%", "height": "60vh"}),
         
         #KPI
         html.Div([
