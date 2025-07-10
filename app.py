@@ -93,7 +93,7 @@ app = Dash(__name__)
 server = app.server
 
 app.layout = html.Div(
-    style={"position": "relative", "fontFamily": "Prata, Roboto", "padding": "35px", "backgroundColor": "#F2F2F2"},
+    style={"position": "relative", "fontFamily": "Sans serif, Roboto", "padding": "35px", "backgroundColor": "#F2F2F2"},
     children=[
         
         #Logo
@@ -109,11 +109,11 @@ app.layout = html.Div(
         ),
 
         html.Img(
-            src="/assets/mapa.png",
+            src="/assets/gif_colombia.gif",
             style={
                 "position": "absolute",
                 "bottom": "40px",
-                "right": "280px",
+                "right": "100px",
                 "height": "160px",
                 "zIndex": "1000"
             }
