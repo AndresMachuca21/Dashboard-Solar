@@ -117,9 +117,9 @@ app.layout = html.Div(
             src="/assets/gif_colombia.gif",
             style={
                 "position": "absolute",
-                "bottom": "40px",
-                "right": "0px",
-                "height": "160px",
+                "bottom": "25px",
+                "right": "30px",
+                "height": "140px",
                 "zIndex": "1000"
             }
         ),
