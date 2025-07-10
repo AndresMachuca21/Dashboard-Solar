@@ -41,7 +41,7 @@ def crear_figura(df, pulso_on):
         line=dict(color="#84B113", width=3),
         marker=dict(size=6, color="#84B113"),
         fill='tozeroy',  # ← Esto crea el área debajo
-        fillcolor='rgba(132, 177, 19, 0.05)',  # ← Color degradado simulando sombra
+    fillcolor='rgba(132, 177, 19, 0.05)',  # ← Color degradado simulando sombra
         showlegend=False
     ))
 
@@ -60,6 +60,7 @@ def crear_figura(df, pulso_on):
 
     # layout
     fig.update_layout(
+        autosize=True,
         xaxis_title=None,
         yaxis_title="Energía (MWh)",
         
@@ -95,7 +96,8 @@ app = Dash(__name__)
 server = app.server
 
 app.layout = html.Div(
-    style={"position": "relative", "fontFamily": "Sans serif, Roboto", "padding": "35px", "backgroundColor": "#F2F2F2"},
+    style={"position": "relative", "fontFamily": "Sans serif, Roboto", "padding": "35px", "backgroundColor": "#F2F2F2",
+           "maxWidth": "100%", "overflowX": "hidden"},
     children=[
         
         #Logo
@@ -110,12 +112,13 @@ app.layout = html.Div(
             }
         ),
 
+        # Mapa
         html.Img(
             src="/assets/gif_colombia.gif",
             style={
                 "position": "absolute",
                 "bottom": "40px",
-                "right": "100px",
+                "right": "0px",
                 "height": "160px",
                 "zIndex": "1000"
             }
@@ -140,7 +143,7 @@ app.layout = html.Div(
         }),
         
         # Gráfico de generación
-        dcc.Graph(id="grafico-generacion", config={"displayModeBar": False}),
+        dcc.Graph(id="grafico-generacion", config={"displayModeBar": False},style={"width": "100%", "height": "60vh"}),
         
         #KPI
         html.Div([
