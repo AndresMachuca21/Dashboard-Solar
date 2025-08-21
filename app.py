@@ -241,7 +241,7 @@ app.layout = html.Div(
         html.Div([
             html.Div([
                 html.H4("Sunnorte acumulado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
-                html.P(id="kpi-sunnorte", style={"fontSize": "28px", "color": "#84B113", "marginTop": "5px", "right": "-20px"})
+                html.P(id="kpi-sunnorte", style={"fontSize": "28px", "color": "#84B113", "marginTop": "5px", "right": "-10px"})
             ], style={"textAlign": "center", "flex": "1"}),
 
             html.Div([
@@ -251,9 +251,9 @@ app.layout = html.Div(
 
             html.Div([
                 html.H4("Total combinado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
-                html.P(id="kpi-total", style={"fontSize": "28px", "color": "#000000", "marginTop": "5px", "left": "-20px"})
+                html.P(id="kpi-total", style={"fontSize": "28px", "color": "#000000", "marginTop": "5px", "left": "-10px"})
             ], style={"textAlign": "center", "flex": "1"}),
-        ], style={"textAlign": "center", "display": "flex", "gap": "4px", "marginTop": "0px", "marginBottom": "0px", "maxWidth": "100px"}),
+        ], style={"display": "flex", "gap": "4px", "marginTop": "0px", "marginBottom": "0px", "maxWidth": "300px"}),
 
         # Última actualización
         html.Div(id="ultima-actualizacion", style={
