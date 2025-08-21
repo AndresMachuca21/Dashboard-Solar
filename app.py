@@ -118,7 +118,7 @@ def crear_figura_dos_series(df_sun, df_ard, pulso_on):
         line=dict(width=0)
     ))
 
-    # Colores intercambiados:
+    # Colores:
     verde_sunnorte = "#84B113"  # Sunnorte
     verde_ardobela = "#2E7D32"  # Ardobela
 
@@ -241,7 +241,7 @@ app.layout = html.Div(
         html.Div([
             html.Div([
                 html.H4("Sunnorte acumulado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
-                html.P(id="kpi-sunnorte", style={"fontSize": "28px", "color": "#84B113", "marginTop": "5px", "right": "2px"})
+                html.P(id="kpi-sunnorte", style={"fontSize": "28px", "color": "#84B113", "marginTop": "5px", "right": "-20px"})
             ], style={"textAlign": "center", "flex": "1"}),
 
             html.Div([
@@ -251,13 +251,13 @@ app.layout = html.Div(
 
             html.Div([
                 html.H4("Total combinado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
-                html.P(id="kpi-total", style={"fontSize": "28px", "color": "#000000", "marginTop": "5px", "left": "2px"})
+                html.P(id="kpi-total", style={"fontSize": "28px", "color": "#000000", "marginTop": "5px", "left": "-20px"})
             ], style={"textAlign": "center", "flex": "1"}),
         ], style={"display": "flex", "gap": "4px", "marginTop": "0px", "marginBottom": "0px"}),
 
         # Última actualización
         html.Div(id="ultima-actualizacion", style={
-            "textAlign": "center", "marginTop": "-10px", "fontSize": "12px", "color": "#777"
+            "textAlign": "center", "marginTop": "-10px", "fontSize": "12px", "color": "#777", "maxWidth": "500px"
         }),
 
         # Intervalos
