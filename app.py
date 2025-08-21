@@ -101,40 +101,16 @@ def combinar_total(df_sun, df_ard):
     return df  # columnas: hora, sun, ard, energia_MWh(=total)
 
 
-# ------------------ Figura multi-serie con pulso en Total ------------------
-def crear_figura_multi(df_sun, df_ard, df_tot, pulso_on):
+# ------------------ Figura con dos series (verdes) y pulso controlado ------------------
+def crear_figura_dos_series(df_sun, df_ard, pulso_on):
     sun = pd.DataFrame(df_sun) if isinstance(df_sun, list) else df_sun.copy()
     ard = pd.DataFrame(df_ard) if isinstance(df_ard, list) else df_ard.copy()
-    tot = pd.DataFrame(df_tot) if isinstance(df_tot, list) else df_tot.copy()
-
-    # Si no hay datos en total, figura vacía
-    if tot.empty or tot["energia_MWh"].dropna().empty:
-        # Eje X fijo aunque esté vacío
-        fig = go.Figure()
-        fig.update_layout(
-            xaxis=dict(
-                categoryorder='array',
-                categoryarray=LABELS_00_23,  # EJE X FIJO
-                showgrid=False,
-                showline=True,
-                linecolor="#000000",
-            ),
-            yaxis=dict(
-                showgrid=True,
-                gridcolor="#DDDDDD",
-                zeroline=True,
-                zerolinecolor="#000000",
-                range=[0, 36]
-            ),
-            plot_bgcolor="#F2F2F2",
-            paper_bgcolor="#F2F2F2",
-            font=dict(color="#000000", family="Arial"),
-            margin=dict(l=40, r=40, t=10, b=0),
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-        )
-        return fig
 
     fig = go.Figure()
+
+    # Colores (dos tonos de verde)
+    verde_oscuro = "#2E7D32"
+    verde_ecoener = "#84B113"
 
     # Sunnorte
     if not sun.empty and not sun["energia_MWh"].dropna().empty:
@@ -142,8 +118,8 @@ def crear_figura_multi(df_sun, df_ard, df_tot, pulso_on):
             x=sun["hora"], y=sun["energia_MWh"],
             mode="lines+markers",
             name="Sunnorte",
-            line=dict(width=2, color="#1f77b4"),   # azul
-            marker=dict(size=5, color="#1f77b4"),
+            line=dict(width=3, color=verde_oscuro),
+            marker=dict(size=6, color=verde_oscuro),
             showlegend=True
         ))
 
@@ -153,36 +129,35 @@ def crear_figura_multi(df_sun, df_ard, df_tot, pulso_on):
             x=ard["hora"], y=ard["energia_MWh"],
             mode="lines+markers",
             name="Ardobela (I+II)",
-            line=dict(width=3, color="#84B113"),
-            marker=dict(size=6, color="#84B113"),
-            fill='tozeroy',
-            fillcolor='rgba(132, 177, 19, 0.05)',
+            line=dict(width=3, color=verde_ecoener),
+            marker=dict(size=6, color=verde_ecoener),
             showlegend=True
         ))
 
-    # Total
-    if not tot.empty and not tot["energia_MWh"].dropna().empty:
-        fig.add_trace(go.Scatter(
-            x=tot["hora"], y=tot["energia_MWh"],
-            mode="lines",
-            name="Total",
-            line=dict(width=2.5, color="#000000", dash="dot"),
-            showlegend=True
-        ))
+    # ---- Pulso: en la serie cuyo último valor sea mayor (para evitar valores ~0 cerca del eje X) ----
+    candidatos = []
+    if not sun.empty and not sun["energia_MWh"].dropna().empty:
+        idx_sun = sun["energia_MWh"].last_valid_index()
+        candidatos.append(("sun", sun.loc[idx_sun, "hora"], float(sun["energia_MWh"].dropna().iloc[-1]), verde_oscuro))
+    if not ard.empty and not ard["energia_MWh"].dropna().empty:
+        idx_ard = ard["energia_MWh"].last_valid_index()
+        candidatos.append(("ard", ard.loc[idx_ard, "hora"], float(ard["energia_MWh"].dropna().iloc[-1]), verde_ecoener))
 
-        # Punto con pulso en TOTAL
-        hora_final = tot["hora"][tot["energia_MWh"].last_valid_index()]
-        valor_final = tot["energia_MWh"].dropna().iloc[-1]
+    if candidatos:
+        # Elegimos el de mayor valor para alejar el pulso del eje X
+        serie_pulso = max(candidatos, key=lambda t: t[2])
+        _, hora_final, valor_final, color_pulso = serie_pulso
+
         size = 12 if pulso_on else 8
         opacity = 1 if pulso_on else 0.4
         fig.add_trace(go.Scatter(
             x=[hora_final], y=[valor_final],
             mode="markers",
-            marker=dict(size=size, color="#000000", opacity=opacity, symbol="circle"),
+            marker=dict(size=size, color=color_pulso, opacity=opacity, symbol="circle"),
             showlegend=False
         ))
 
-    # Layout con eje X FIJO
+    # Layout con eje X FIJO y sin sombras
     fig.update_layout(
         autosize=True,
         xaxis_title=None,
@@ -245,21 +220,21 @@ app.layout = html.Div(
         dcc.Graph(id="grafico-generacion", config={"displayModeBar": False},
                   style={"width": "100%", "height": "54vh"}),
 
-        # KPIs: Sunnorte, Ardobela, Total
+        # KPIs: Sunnorte, Ardobelas, Total
         html.Div([
             html.Div([
                 html.H4("Sunnorte acumulado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
-                html.P(id="kpi-sunnorte", style={"fontSize": "28px", "color": "#84B113", "marginTop": "5px"})
+                html.P(id="kpi-sunnorte", style={"fontSize": "28px", "color": "#2E7D32", "marginTop": "5px"})
             ], style={"textAlign": "center", "flex": "1"}),
 
             html.Div([
-                html.H4("Ardobela (I+II) acumulado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
+                html.H4("Ardobelas acumulado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
                 html.P(id="kpi-ardobela", style={"fontSize": "28px", "color": "#84B113", "marginTop": "5px"})
             ], style={"textAlign": "center", "flex": "1"}),
 
             html.Div([
                 html.H4("Total combinado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
-                html.P(id="kpi-total", style={"fontSize": "28px", "color": "#84B113", "marginTop": "5px"})
+                html.P(id="kpi-total", style={"fontSize": "28px", "color": "#000000", "marginTop": "5px"})
             ], style={"textAlign": "center", "flex": "1"}),
         ], style={"display": "flex", "gap": "10px", "marginTop": "0px", "marginBottom": "0px"}),
 
@@ -276,7 +251,7 @@ app.layout = html.Div(
         # Stores de datos
         dcc.Store(id='datos-ardobela'),    # serie Ardobela I+II por hora
         dcc.Store(id='datos-sunnorte'),    # serie Sunnorte por hora
-        dcc.Store(id='datos-total')        # combinada (para KPI total y gráfico)
+        dcc.Store(id='datos-total')        # combinada (para KPI total)
     ]
 )
 
@@ -324,11 +299,10 @@ def actualizar_datos(n):
     State('pulso-estado', 'data'),
     State('datos-sunnorte', 'data'),
     State('datos-ardobela', 'data'),
-    State('datos-total', 'data'),
 )
-def actualizar_grafico(n_pulse, pulso_on, data_sun, data_ard, data_tot):
+def actualizar_grafico(n_pulse, pulso_on, data_sun, data_ard):
     try:
-        fig = crear_figura_multi(data_sun or [], data_ard or [], data_tot or [], pulso_on)
+        fig = crear_figura_dos_series(data_sun or [], data_ard or [], pulso_on)
     except Exception:
         return go.Figure(), pulso_on
     return fig, not pulso_on
