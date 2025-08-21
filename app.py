@@ -17,12 +17,13 @@ LABELS_00_23 = [f"{h:02d}:00" for h in range(24)]
 
 def horas_transcurridas_labels():
     """
-    Devuelve las etiquetas de horas COMPLETADAS hasta la hora anterior a la actual en Bogotá.
-    Ej.: Si son 21:15, devuelve hasta "20:00".
+    Devuelve las etiquetas de horas con cierre ya alcanzado en el día actual.
+    Ahora incluye HASTA la hora actual (now.hour).
+    Ej.: si son 11:05, incluye ...,"10:00","11:00".
     """
     ahora = datetime.now(TZ)
-    last_hour = max(0, ahora.hour - 1)
-    return LABELS_00_23[: last_hour + 1]
+    last_label_idx = min(23, ahora.hour)  # incluir la hora actual
+    return LABELS_00_23[: last_label_idx + 1]
 
 
 # ------------------ Carga de datos Sunnorte (tu lógica base) ------------------
@@ -41,7 +42,7 @@ def cargar_sunnorte():
     base = pd.DataFrame({"hora": LABELS_00_23})
     df_final = base.merge(df_por_hora, on="hora", how="left")
 
-    # Filtrar a horas ya transcurridas
+    # Filtrar a horas con cierre alcanzado (incluyendo la hora actual)
     labels_ok = set(horas_transcurridas_labels())
     df_final = df_final[df_final["hora"].isin(labels_ok)].copy()
 
@@ -55,7 +56,7 @@ def cargar_ardobela():
     suma por hora y convierte kWh -> MWh.
 
     IMPORTANTE: Se mapea HORA 01 -> 01:00, ..., HORA 23 -> 23:00.
-    HORA 24 (que sería 24:00) NO se mapea para mantener el eje 00..23.
+    HORA 24 no se mapea para mantener el eje 00..23.
     """
     df = pd.read_csv("Ardobela.csv", sep=';')
     df_sel = df[df["CODIGO SIC"].isin(["Frt76855", "Frt76857"])].copy()
@@ -66,19 +67,19 @@ def cargar_ardobela():
 
     suma_kwh = df_sel[cols_presentes].sum(axis=0)  # Serie por 'HORA xx'
 
-    # Construir serie kWh solo para HORA 01..23, mapeando a 01:00..23:00
+    # Construir (HORA 01..23) -> '01:00'..'23:00'
     items = []
     for i in range(1, 24):  # 1..23
         col = f"HORA {i:02d}"
         if col in suma_kwh.index:
             items.append((f"{i:02d}:00", float(suma_kwh[col])))
 
-    # Serie a DataFrame en MWh
     s_pairs = dict(items)  # {'01:00': kWh, ...}
+
     df_hora = pd.DataFrame({"hora": LABELS_00_23})
     df_hora["energia_MWh"] = df_hora["hora"].map(lambda h: (s_pairs.get(h, None) / 1000.0) if (h in s_pairs) else None)
 
-    # Filtrar a horas ya transcurridas
+    # Filtrar a horas con cierre alcanzado (incluyendo la hora actual)
     labels_ok = set(horas_transcurridas_labels())
     df_hora = df_hora[df_hora["hora"].isin(labels_ok)].copy()
 
@@ -118,10 +119,8 @@ def crear_figura_dos_series(df_sun, df_ard, pulso_on):
     ))
 
     # Colores intercambiados:
-    #   - Sunnorte ahora usa el verde Ecoener
-    #   - Ardobela usa el verde oscuro
-    verde_sunnorte = "#84B113"
-    verde_ardobela = "#2E7D32"
+    verde_sunnorte = "#84B113"  # Sunnorte
+    verde_ardobela = "#2E7D32"  # Ardobela
 
     # Sunnorte
     if not sun.empty and not sun["energia_MWh"].dropna().empty:
@@ -131,7 +130,7 @@ def crear_figura_dos_series(df_sun, df_ard, pulso_on):
             name="Sunnorte",
             line=dict(width=3, color=verde_sunnorte),
             marker=dict(size=6, color=verde_sunnorte),
-            showlegend=False  # sin leyenda
+            showlegend=False
         ))
 
     # Ardobela (I+II)
@@ -142,14 +141,13 @@ def crear_figura_dos_series(df_sun, df_ard, pulso_on):
             name="Ardobela (I+II)",
             line=dict(width=3, color=verde_ardobela),
             marker=dict(size=6, color=verde_ardobela),
-            showlegend=False  # sin leyenda
+            showlegend=False
         ))
 
-    # ---- Pulso en AMBAS series (en su último punto válido) ----
+    # ---- Pulsos en AMBAS series (último punto válido de cada una) ----
     size = 12 if pulso_on else 8
     opacity = 1 if pulso_on else 0.4
 
-    # Pulso Sunnorte
     if not sun.empty and not sun["energia_MWh"].dropna().empty:
         idx = sun["energia_MWh"].last_valid_index()
         hora_final = sun.loc[idx, "hora"]
@@ -162,7 +160,6 @@ def crear_figura_dos_series(df_sun, df_ard, pulso_on):
             cliponaxis=False
         ))
 
-    # Pulso Ardobela
     if not ard.empty and not ard["energia_MWh"].dropna().empty:
         idx = ard["energia_MWh"].last_valid_index()
         hora_final = ard.loc[idx, "hora"]
@@ -178,7 +175,7 @@ def crear_figura_dos_series(df_sun, df_ard, pulso_on):
     # Layout con EJE X FIJO de 24 horas y SIN leyenda
     fig.update_layout(
         autosize=True,
-        showlegend=False,  # sin leyenda global
+        showlegend=False,
         xaxis_title=None,
         yaxis_title="Energía (MWh)",
         xaxis=dict(
