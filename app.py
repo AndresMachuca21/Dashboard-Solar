@@ -241,7 +241,7 @@ app.layout = html.Div(
         html.Div([
             html.Div([
                 html.H4("Sunnorte acumulado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
-                html.P(id="kpi-sunnorte", style={"fontSize": "28px", "color": "#84B113", "marginTop": "5px", "marginRight": "-50px"})
+                html.P(id="kpi-sunnorte", style={"fontSize": "28px", "color": "#84B113", "marginTop": "5px", "marginRight": "-250px"})
             ], style={"textAlign": "center", "flex": "1"}),
 
             html.Div([
@@ -251,7 +251,7 @@ app.layout = html.Div(
 
             html.Div([
                 html.H4("Total combinado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
-                html.P(id="kpi-total", style={"fontSize": "28px", "color": "#000000", "marginTop": "5px", "marginLeft": "-50px"})
+                html.P(id="kpi-total", style={"fontSize": "28px", "color": "#000000", "marginTop": "5px", "marginLeft": "-250px"})
             ], style={"textAlign": "center", "flex": "1"}),
         ], style={"display": "flex", "gap": "4px", "marginTop": "0px", "marginBottom": "0px"}),
 
