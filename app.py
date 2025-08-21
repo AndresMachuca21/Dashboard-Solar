@@ -18,7 +18,7 @@ LABELS_00_23 = [f"{h:02d}:00" for h in range(24)]
 def horas_transcurridas_labels():
     """
     Devuelve las etiquetas de horas con cierre ya alcanzado en el día actual.
-    Incluye HASTA la hora actual (now.hour).
+    Ahora incluye HASTA la hora actual (now.hour).
     Ej.: si son 11:05, incluye ...,"10:00","11:00".
     """
     ahora = datetime.now(TZ)
@@ -237,41 +237,23 @@ app.layout = html.Div(
         dcc.Graph(id="grafico-generacion", config={"displayModeBar": False},
                   style={"width": "100%", "height": "54vh"}),
 
-        # KPIs: Sunnorte, Ardobelas, Total
-        # Más juntos y centrados: sin flex:1 en cada tarjeta, gap mínimo y justify center.
+        # KPIs: Sunnorte, Ardobelas, Total (gap reducido)
         html.Div([
             html.Div([
-                html.H4("Sunnorte acumulado", style={"fontSize": "18px", "color": "#000000",
-                                                     "margin": "0 0 2px 0"}),
-                html.P(id="kpi-sunnorte", style={"fontSize": "28px", "color": "#84B113",
-                                                 "margin": "0"})
-            ], style={"textAlign": "center", "padding": "0 6px"}),
+                html.H4("Sunnorte acumulado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
+                html.P(id="kpi-sunnorte", style={"fontSize": "28px", "color": "#84B113", "marginTop": "5px", "right": "2px"})
+            ], style={"textAlign": "center", "flex": "1"}),
 
             html.Div([
-                html.H4("Ardobelas acumulado", style={"fontSize": "18px", "color": "#000000",
-                                                      "margin": "0 0 2px 0"}),
-                html.P(id="kpi-ardobela", style={"fontSize": "28px", "color": "#2E7D32",
-                                                 "margin": "0"})
-            ], style={"textAlign": "center", "padding": "0 6px"}),
+                html.H4("Ardobelas acumulado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
+                html.P(id="kpi-ardobela", style={"fontSize": "28px", "color": "#2E7D32", "marginTop": "5px"})
+            ], style={"textAlign": "center", "flex": "1"}),
 
             html.Div([
-                html.H4("Total combinado", style={"fontSize": "18px", "color": "#000000",
-                                                  "margin": "0 0 2px 0"}),
-                html.P(id="kpi-total", style={"fontSize": "28px", "color": "#000000",
-                                              "margin": "0"})
-            ], style={"textAlign": "center", "padding": "0 6px"}),
-        ], style={
-            "display": "flex",
-            "justifyContent": "center",
-            "alignItems": "center",
-            "gap": "4px",
-            "marginTop": "0px",
-            "marginBottom": "0px",
-            # opcional: limitar ancho para que queden más compactos aun en pantallas muy anchas
-            "maxWidth": "900px",
-            "marginLeft": "auto",
-            "marginRight": "auto",
-        }),
+                html.H4("Total combinado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
+                html.P(id="kpi-total", style={"fontSize": "28px", "color": "#000000", "marginTop": "5px", "left": "2px"})
+            ], style={"textAlign": "center", "flex": "1"}),
+        ], style={"display": "flex", "gap": "4px", "marginTop": "0px", "marginBottom": "0px"}),
 
         # Última actualización
         html.Div(id="ultima-actualizacion", style={
