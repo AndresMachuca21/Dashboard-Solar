@@ -1,9 +1,13 @@
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, time, timedelta
 from zoneinfo import ZoneInfo
 import plotly.graph_objects as go
 from dash import Dash, html, dcc
 from dash.dependencies import Input, Output, State
+
+def horas_00_23_datetime(fecha):
+    base = datetime.combine(fecha, time(0, 0))
+    return [base + timedelta(hours=h) for h in range(24)]
 
 # ------------------ Zona horaria y constantes ------------------
 TZ = ZoneInfo('America/Bogota')
@@ -105,99 +109,101 @@ def crear_figura_dos_series(df_sun, df_ard, pulso_on):
     sun = pd.DataFrame(df_sun) if isinstance(df_sun, list) else df_sun.copy()
     ard = pd.DataFrame(df_ard) if isinstance(df_ard, list) else df_ard.copy()
 
-    fig = go.Figure()
+    # Fecha de referencia para el eje/labels (día local en Bogotá)
+    fecha_ref = datetime.now(TZ).date()
 
-    # === Trazo base invisible para fijar SIEMPRE las 24 categorías ===
+    # Conversión de "HH:MM" -> datetime del día
+    def to_dt(df):
+        if df.empty or "hora" not in df.columns:
+            return df, []
+        x = pd.to_datetime(df["hora"].apply(lambda h: f"{fecha_ref} {h}"))
+        df = df.copy()
+        df["x_dt"] = x
+        return df, x
+
+    sun, sun_x = to_dt(sun)
+    ard, ard_x = to_dt(ard)
+
+    # Trazo base (fantasma) para fijar SIEMPRE 24 horas exactas y sin padding
+    x_base = horas_00_23_datetime(fecha_ref)
+    fig = go.Figure()
     fig.add_trace(go.Scatter(
-        x=LABELS_00_23,
-        y=[0]*24,
+        x=x_base, y=[0]*24,
         mode="lines",
-        showlegend=False,
-        hoverinfo="skip",
-        opacity=0,
-        line=dict(width=0)
+        showlegend=False, hoverinfo="skip",
+        opacity=0, line=dict(width=0)
     ))
 
-    # Colores:
-    verde_sunnorte = "#84B113"  # Sunnorte
-    verde_ardobela = "#2E7D32"  # Ardobela
+    # Colores
+    verde_sunnorte = "#84B113"
+    verde_ardobela = "#2E7D32"
 
     # Sunnorte
     if not sun.empty and not sun["energia_MWh"].dropna().empty:
         fig.add_trace(go.Scatter(
-            x=sun["hora"], y=sun["energia_MWh"],
+            x=sun["x_dt"], y=sun["energia_MWh"],
             mode="lines+markers",
-            name="Sunnorte",
             line=dict(width=3, color=verde_sunnorte),
             marker=dict(size=6, color=verde_sunnorte),
-            showlegend=False
+            showlegend=False, name="Sunnorte"
         ))
 
     # Ardobela (I+II)
     if not ard.empty and not ard["energia_MWh"].dropna().empty:
         fig.add_trace(go.Scatter(
-            x=ard["hora"], y=ard["energia_MWh"],
+            x=ard["x_dt"], y=ard["energia_MWh"],
             mode="lines+markers",
-            name="Ardobela (I+II)",
             line=dict(width=3, color=verde_ardobela),
             marker=dict(size=6, color=verde_ardobela),
-            showlegend=False
+            showlegend=False, name="Ardobela (I+II)"
         ))
 
-    # ---- Pulsos en AMBAS series (último punto válido de cada una) ----
+    # Pulsos (último punto válido de cada serie)
     size = 12 if pulso_on else 8
     opacity = 1 if pulso_on else 0.4
 
     if not sun.empty and not sun["energia_MWh"].dropna().empty:
         idx = sun["energia_MWh"].last_valid_index()
-        hora_final = sun.loc[idx, "hora"]
-        valor_final = float(sun["energia_MWh"].dropna().iloc[-1])
         fig.add_trace(go.Scatter(
-            x=[hora_final], y=[valor_final],
+            x=[sun.loc[idx, "x_dt"]], y=[float(sun["energia_MWh"].dropna().iloc[-1])],
             mode="markers",
             marker=dict(size=size, color=verde_sunnorte, opacity=opacity, symbol="circle"),
-            showlegend=False,
-            cliponaxis=False
+            showlegend=False, cliponaxis=False
         ))
 
     if not ard.empty and not ard["energia_MWh"].dropna().empty:
         idx = ard["energia_MWh"].last_valid_index()
-        hora_final = ard.loc[idx, "hora"]
-        valor_final = float(ard["energia_MWh"].dropna().iloc[-1])
         fig.add_trace(go.Scatter(
-            x=[hora_final], y=[valor_final],
+            x=[ard.loc[idx, "x_dt"]], y=[float(ard["energia_MWh"].dropna().iloc[-1])],
             mode="markers",
             marker=dict(size=size, color=verde_ardobela, opacity=opacity, symbol="circle"),
-            showlegend=False,
-            cliponaxis=False
+            showlegend=False, cliponaxis=False
         ))
 
-    # Layout con EJE X FIJO de 24 horas y SIN leyenda
+    # Layout: eje X continuo de fecha, rango exacto 00:00 -> 23:00 del día
     fig.update_layout(
         autosize=True,
         showlegend=False,
         xaxis_title=None,
         yaxis_title="Energía (MWh)",
         xaxis=dict(
-            type='category',
-            categoryorder='array',
-            categoryarray=LABELS_00_23,  # 00:00..23:00 siempre
+            type='date',
+            range=[x_base[0], x_base[-1]],   # <- SIN padding: 00:00 en la intersección con Y
+            tickformat="%H:%M",
+            dtick=3600000,                   # 1 hora
             showgrid=False,
             showline=True,
             linecolor="#000000",
         ),
         yaxis=dict(
-            showgrid=True,
-            gridcolor="#DDDDDD",
-            zeroline=True,
-            zerolinecolor="#000000",
+            showgrid=True, gridcolor="#DDDDDD",
+            zeroline=True, zerolinecolor="#000000",
             range=[0, 36]
         ),
         plot_bgcolor="#F2F2F2",
         paper_bgcolor="#F2F2F2",
         font=dict(color="#000000", family="Arial"),
         margin=dict(l=40, r=40, t=10, b=0),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
     )
     return fig
 
@@ -241,7 +247,7 @@ app.layout = html.Div(
         html.Div([
             html.Div([
                 html.H4("Sunnorte acumulado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
-                html.P(id="kpi-sunnorte", style={"fontSize": "28px", "color": "#84B113", "marginTop": "5px", "marginRight": "-250px"})
+                html.P(id="kpi-sunnorte", style={"fontSize": "28px", "color": "#84B113", "marginTop": "5px"})
             ], style={"textAlign": "center", "flex": "1"}),
 
             html.Div([
@@ -251,7 +257,7 @@ app.layout = html.Div(
 
             html.Div([
                 html.H4("Total combinado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
-                html.P(id="kpi-total", style={"fontSize": "28px", "color": "#000000", "marginTop": "5px", "marginLeft": "-250px"})
+                html.P(id="kpi-total", style={"fontSize": "28px", "color": "#000000", "marginTop": "5px"})
             ], style={"textAlign": "center", "flex": "1"}),
         ], style={"display": "flex", "gap": "4px", "marginTop": "0px", "marginBottom": "0px"}),
 
