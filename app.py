@@ -253,7 +253,7 @@ app.layout = html.Div(
                 html.H4("Total combinado", style={"fontSize": "18px", "color": "#000000", "marginBottom": "5px"}),
                 html.P(id="kpi-total", style={"fontSize": "28px", "color": "#000000", "marginTop": "5px", "left": "-10px"})
             ], style={"textAlign": "center", "flex": "1"}),
-        ], style={"display": "flex", "gap": "4px", "marginTop": "0px", "marginBottom": "0px", "maxWidth": "300px"}),
+        ], style={"display": "flex", "gap": "4px", "marginTop": "0px", "marginBottom": "0px"}),
 
         # Última actualización
         html.Div(id="ultima-actualizacion", style={
