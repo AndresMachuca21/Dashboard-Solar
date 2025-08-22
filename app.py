@@ -189,9 +189,8 @@ def crear_figura_dos_series(df_sun, df_ard, pulso_on):
         xaxis=dict(
             type='date',
             range=[x_base[0], x_base[-1]],
-            tickmode='array',
-            tickvals=tickvals,
-            ticktext=ticktext,                   
+            tickformat="%H:%M",
+            dtick=3600000,                    
             showgrid=False,
             showline=True,
             linecolor="#000000",
