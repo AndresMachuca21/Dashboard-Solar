@@ -188,9 +188,9 @@ def crear_figura_dos_series(df_sun, df_ard, pulso_on):
         yaxis_title="Energía (MWh)",
         xaxis=dict(
             type='date',
-            range=[x_base[0], x_base[-1]],   # <- SIN padding: 00:00 en la intersección con Y
-            tickformat="%H:%M",
-            dtick=3600000,                   # 1 hora
+            tickmode='array',
+            tickvals=tickvals,
+            ticktext=ticktext,                   
             showgrid=False,
             showline=True,
             linecolor="#000000",
