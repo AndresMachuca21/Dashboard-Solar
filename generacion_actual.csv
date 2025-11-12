@@ -1,25 +1,5 @@
 # Custom comment;;;;
 Asset ID;Starts dd/mm/YYYY HH:MM;Ends dd/mm/YYYY HH:MM;Time zone;Power MW
-Sunnorte;10/11/2025 0:00;10/11/2025 1:00;America/Bogota;0
-Sunnorte;10/11/2025 1:00;10/11/2025 2:00;America/Bogota;0
-Sunnorte;10/11/2025 2:00;10/11/2025 3:00;America/Bogota;0
-Sunnorte;10/11/2025 3:00;10/11/2025 4:00;America/Bogota;0
-Sunnorte;10/11/2025 4:00;10/11/2025 5:00;America/Bogota;0
-Sunnorte;10/11/2025 5:00;10/11/2025 6:00;America/Bogota;0.05
-Sunnorte;10/11/2025 6:00;10/11/2025 7:00;America/Bogota;3.62
-Sunnorte;10/11/2025 7:00;10/11/2025 8:00;America/Bogota;13.15
-Sunnorte;10/11/2025 8:00;10/11/2025 9:00;America/Bogota;18.6
-Sunnorte;10/11/2025 9:00;10/11/2025 10:00;America/Bogota;25.52
-Sunnorte;10/11/2025 10:00;10/11/2025 11:00;America/Bogota;33.62
-Sunnorte;10/11/2025 11:00;10/11/2025 12:00;America/Bogota;24.73
-Sunnorte;10/11/2025 12:00;10/11/2025 13:00;America/Bogota;10.54
-Sunnorte;10/11/2025 13:00;10/11/2025 14:00;America/Bogota;12.15
-Sunnorte;10/11/2025 14:00;10/11/2025 15:00;America/Bogota;10.32
-Sunnorte;10/11/2025 15:00;10/11/2025 16:00;America/Bogota;1.83
-Sunnorte;10/11/2025 16:00;10/11/2025 17:00;America/Bogota;2.77
-Sunnorte;10/11/2025 17:00;10/11/2025 18:00;America/Bogota;0.19
-Sunnorte;10/11/2025 18:00;10/11/2025 19:00;America/Bogota;0
-Sunnorte;10/11/2025 19:00;10/11/2025 20:00;America/Bogota;0
 Sunnorte;10/11/2025 20:00;10/11/2025 21:00;America/Bogota;0
 Sunnorte;10/11/2025 21:00;10/11/2025 22:00;America/Bogota;0
 Sunnorte;10/11/2025 22:00;10/11/2025 23:00;America/Bogota;0
@@ -39,4 +19,7 @@ Sunnorte;11/11/2025 11:00;11/11/2025 12:00;America/Bogota;23.6
 Sunnorte;11/11/2025 12:00;11/11/2025 13:00;America/Bogota;19.43
 Sunnorte;11/11/2025 13:00;11/11/2025 14:00;America/Bogota;19.56
 Sunnorte;11/11/2025 14:00;11/11/2025 15:00;America/Bogota;6.96
-Sunnorte;11/11/2025 15:00;11/11/2025 16:00;America/Bogota;0.56
+Sunnorte;11/11/2025 15:00;11/11/2025 16:00;America/Bogota;2.45
+Sunnorte;11/11/2025 16:00;11/11/2025 17:00;America/Bogota;2.92
+Sunnorte;11/11/2025 17:00;11/11/2025 18:00;America/Bogota;0.29
+Sunnorte;11/11/2025 18:00;11/11/2025 19:00;America/Bogota;0
