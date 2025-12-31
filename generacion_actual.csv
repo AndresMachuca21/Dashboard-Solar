@@ -1,29 +1,5 @@
 # Custom comment;;;;
 Asset ID;Starts dd/mm/YYYY HH:MM;Ends dd/mm/YYYY HH:MM;Time zone;Power MW
-Sunnorte;29/12/2025 0:00;29/12/2025 1:00;America/Bogota;0
-Sunnorte;29/12/2025 1:00;29/12/2025 2:00;America/Bogota;0
-Sunnorte;29/12/2025 2:00;29/12/2025 3:00;America/Bogota;0
-Sunnorte;29/12/2025 3:00;29/12/2025 4:00;America/Bogota;0
-Sunnorte;29/12/2025 4:00;29/12/2025 5:00;America/Bogota;0
-Sunnorte;29/12/2025 5:00;29/12/2025 6:00;America/Bogota;0
-Sunnorte;29/12/2025 6:00;29/12/2025 7:00;America/Bogota;0.78
-Sunnorte;29/12/2025 7:00;29/12/2025 8:00;America/Bogota;4.42
-Sunnorte;29/12/2025 8:00;29/12/2025 9:00;America/Bogota;10.42
-Sunnorte;29/12/2025 9:00;29/12/2025 10:00;America/Bogota;17.37
-Sunnorte;29/12/2025 10:00;29/12/2025 11:00;America/Bogota;27.17
-Sunnorte;29/12/2025 11:00;29/12/2025 12:00;America/Bogota;28.87
-Sunnorte;29/12/2025 12:00;29/12/2025 13:00;America/Bogota;27.2
-Sunnorte;29/12/2025 13:00;29/12/2025 14:00;America/Bogota;12.5
-Sunnorte;29/12/2025 14:00;29/12/2025 15:00;America/Bogota;12.18
-Sunnorte;29/12/2025 15:00;29/12/2025 16:00;America/Bogota;4.36
-Sunnorte;29/12/2025 16:00;29/12/2025 17:00;America/Bogota;5.43
-Sunnorte;29/12/2025 17:00;29/12/2025 18:00;America/Bogota;1.8
-Sunnorte;29/12/2025 18:00;29/12/2025 19:00;America/Bogota;0
-Sunnorte;29/12/2025 19:00;29/12/2025 20:00;America/Bogota;0
-Sunnorte;29/12/2025 20:00;29/12/2025 21:00;America/Bogota;0
-Sunnorte;29/12/2025 21:00;29/12/2025 22:00;America/Bogota;0
-Sunnorte;29/12/2025 22:00;29/12/2025 23:00;America/Bogota;0
-Sunnorte;29/12/2025 23:00;30/12/2025 0:00;America/Bogota;0
 Sunnorte;30/12/2025 0:00;30/12/2025 1:00;America/Bogota;0
 Sunnorte;30/12/2025 1:00;30/12/2025 2:00;America/Bogota;0
 Sunnorte;30/12/2025 2:00;30/12/2025 3:00;America/Bogota;0
@@ -44,6 +20,12 @@ Sunnorte;30/12/2025 16:00;30/12/2025 17:00;America/Bogota;10.01
 Sunnorte;30/12/2025 17:00;30/12/2025 18:00;America/Bogota;0.39
 Sunnorte;30/12/2025 18:00;30/12/2025 19:00;America/Bogota;0
 Sunnorte;30/12/2025 19:00;30/12/2025 20:00;America/Bogota;0
+Sunnorte;30/12/2025 20:00;30/12/2025 21:00;America/Bogota;0
+Sunnorte;30/12/2025 21:00;30/12/2025 22:00;America/Bogota;0
+Sunnorte;30/12/2025 22:00;30/12/2025 23:00;America/Bogota;0
+Sunnorte;30/12/2025 23:00;31/12/2025 0:00;America/Bogota;0
+Sunnorte;31/12/2025 0:00;31/12/2025 1:00;America/Bogota;0
+Sunnorte;31/12/2025 1:00;31/12/2025 2:00;America/Bogota;0
 ;;;;
 ;;;;
 ;;;;
