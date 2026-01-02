@@ -1,29 +1,5 @@
 # Custom comment;;;;
 Asset ID;Starts dd/mm/YYYY HH:MM;Ends dd/mm/YYYY HH:MM;Time zone;Power MW
-Sunnorte;31/12/2025 0:00;31/12/2025 1:00;America/Bogota;0
-Sunnorte;31/12/2025 1:00;31/12/2025 2:00;America/Bogota;0
-Sunnorte;31/12/2025 2:00;31/12/2025 3:00;America/Bogota;0
-Sunnorte;31/12/2025 3:00;31/12/2025 4:00;America/Bogota;0
-Sunnorte;31/12/2025 4:00;31/12/2025 5:00;America/Bogota;0
-Sunnorte;31/12/2025 5:00;31/12/2025 6:00;America/Bogota;0
-Sunnorte;31/12/2025 6:00;31/12/2025 7:00;America/Bogota;1.45
-Sunnorte;31/12/2025 7:00;31/12/2025 8:00;America/Bogota;5.99
-Sunnorte;31/12/2025 8:00;31/12/2025 9:00;America/Bogota;19.49
-Sunnorte;31/12/2025 9:00;31/12/2025 10:00;America/Bogota;27.02
-Sunnorte;31/12/2025 10:00;31/12/2025 11:00;America/Bogota;30.5
-Sunnorte;31/12/2025 11:00;31/12/2025 12:00;America/Bogota;30.91
-Sunnorte;31/12/2025 12:00;31/12/2025 13:00;America/Bogota;32.27
-Sunnorte;31/12/2025 13:00;31/12/2025 14:00;America/Bogota;18.98
-Sunnorte;31/12/2025 14:00;31/12/2025 15:00;America/Bogota;29.95
-Sunnorte;31/12/2025 15:00;31/12/2025 16:00;America/Bogota;14.37
-Sunnorte;31/12/2025 16:00;31/12/2025 17:00;America/Bogota;8.97
-Sunnorte;31/12/2025 17:00;31/12/2025 18:00;America/Bogota;0.42
-Sunnorte;31/12/2025 18:00;31/12/2025 19:00;America/Bogota;0
-Sunnorte;31/12/2025 19:00;31/12/2025 20:00;America/Bogota;0
-Sunnorte;31/12/2025 20:00;31/12/2025 21:00;America/Bogota;0
-Sunnorte;31/12/2025 21:00;31/12/2025 22:00;America/Bogota;0
-Sunnorte;31/12/2025 22:00;31/12/2025 23:00;America/Bogota;0
-Sunnorte;31/12/2025 23:00;01/01/2026 0:00;America/Bogota;0
 Sunnorte;01/01/2026 0:00;01/01/2026 1:00;America/Bogota;0
 Sunnorte;01/01/2026 1:00;01/01/2026 2:00;America/Bogota;0
 Sunnorte;01/01/2026 2:00;01/01/2026 3:00;America/Bogota;0
@@ -45,6 +21,11 @@ Sunnorte;01/01/2026 17:00;01/01/2026 18:00;America/Bogota;0.31
 Sunnorte;01/01/2026 18:00;01/01/2026 19:00;America/Bogota;0
 Sunnorte;01/01/2026 19:00;01/01/2026 20:00;America/Bogota;0
 Sunnorte;01/01/2026 20:00;01/01/2026 21:00;America/Bogota;0
+Sunnorte;01/01/2026 21:00;01/01/2026 22:00;America/Bogota;0
+Sunnorte;01/01/2026 22:00;01/01/2026 23:00;America/Bogota;0
+Sunnorte;01/01/2026 23:00;02/01/2026 0:00;America/Bogota;0
+Sunnorte;02/01/2026 0:00;02/01/2026 1:00;America/Bogota;0
+Sunnorte;02/01/2026 1:00;02/01/2026 2:00;America/Bogota;0
 ;;;;
 ;;;;
 ;;;;
