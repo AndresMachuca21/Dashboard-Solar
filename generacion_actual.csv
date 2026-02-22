@@ -1,29 +1,5 @@
 # Custom comment;;;;
 Asset ID;Starts dd/mm/YYYY HH:MM;Ends dd/mm/YYYY HH:MM;Time zone;Power MW
-Sunnorte;20/02/2026 0:00;20/02/2026 1:00;America/Bogota;0
-Sunnorte;20/02/2026 1:00;20/02/2026 2:00;America/Bogota;0
-Sunnorte;20/02/2026 2:00;20/02/2026 3:00;America/Bogota;0
-Sunnorte;20/02/2026 3:00;20/02/2026 4:00;America/Bogota;0
-Sunnorte;20/02/2026 4:00;20/02/2026 5:00;America/Bogota;0
-Sunnorte;20/02/2026 5:00;20/02/2026 6:00;America/Bogota;0
-Sunnorte;20/02/2026 6:00;20/02/2026 7:00;America/Bogota;0.81
-Sunnorte;20/02/2026 7:00;20/02/2026 8:00;America/Bogota;4.63
-Sunnorte;20/02/2026 8:00;20/02/2026 9:00;America/Bogota;11.43
-Sunnorte;20/02/2026 9:00;20/02/2026 10:00;America/Bogota;13.75
-Sunnorte;20/02/2026 10:00;20/02/2026 11:00;America/Bogota;22.78
-Sunnorte;20/02/2026 11:00;20/02/2026 12:00;America/Bogota;21.58
-Sunnorte;20/02/2026 12:00;20/02/2026 13:00;America/Bogota;28.52
-Sunnorte;20/02/2026 13:00;20/02/2026 14:00;America/Bogota;25.67
-Sunnorte;20/02/2026 14:00;20/02/2026 15:00;America/Bogota;19.43
-Sunnorte;20/02/2026 15:00;20/02/2026 16:00;America/Bogota;6.86
-Sunnorte;20/02/2026 16:00;20/02/2026 17:00;America/Bogota;3.42
-Sunnorte;20/02/2026 17:00;20/02/2026 18:00;America/Bogota;1.49
-Sunnorte;20/02/2026 18:00;20/02/2026 19:00;America/Bogota;0
-Sunnorte;20/02/2026 19:00;20/02/2026 20:00;America/Bogota;0
-Sunnorte;20/02/2026 20:00;20/02/2026 21:00;America/Bogota;0
-Sunnorte;20/02/2026 21:00;20/02/2026 22:00;America/Bogota;0
-Sunnorte;20/02/2026 22:00;20/02/2026 23:00;America/Bogota;0
-Sunnorte;20/02/2026 23:00;21/02/2026 0:00;America/Bogota;0
 Sunnorte;21/02/2026 0:00;21/02/2026 1:00;America/Bogota;0
 Sunnorte;21/02/2026 1:00;21/02/2026 2:00;America/Bogota;0
 Sunnorte;21/02/2026 2:00;21/02/2026 3:00;America/Bogota;0
@@ -45,3 +21,7 @@ Sunnorte;21/02/2026 17:00;21/02/2026 18:00;America/Bogota;0.74
 Sunnorte;21/02/2026 18:00;21/02/2026 19:00;America/Bogota;0
 Sunnorte;21/02/2026 19:00;21/02/2026 20:00;America/Bogota;0
 Sunnorte;21/02/2026 20:00;21/02/2026 21:00;America/Bogota;0
+Sunnorte;21/02/2026 21:00;21/02/2026 22:00;America/Bogota;0
+Sunnorte;21/02/2026 22:00;21/02/2026 23:00;America/Bogota;0
+Sunnorte;21/02/2026 23:00;22/02/2026 0:00;America/Bogota;0
+Sunnorte;22/02/2026 0:00;22/02/2026 1:00;America/Bogota;0
