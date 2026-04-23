@@ -1,29 +1,5 @@
 # Custom comment;;;;
 Asset ID;Starts dd/mm/YYYY HH:MM;Ends dd/mm/YYYY HH:MM;Time zone;Power MW
-Sunnorte;21/04/2026 0:00;21/04/2026 1:00;America/Bogota;0
-Sunnorte;21/04/2026 1:00;21/04/2026 2:00;America/Bogota;0
-Sunnorte;21/04/2026 2:00;21/04/2026 3:00;America/Bogota;0
-Sunnorte;21/04/2026 3:00;21/04/2026 4:00;America/Bogota;0
-Sunnorte;21/04/2026 4:00;21/04/2026 5:00;America/Bogota;0
-Sunnorte;21/04/2026 5:00;21/04/2026 6:00;America/Bogota;0.06
-Sunnorte;21/04/2026 6:00;21/04/2026 7:00;America/Bogota;2.79
-Sunnorte;21/04/2026 7:00;21/04/2026 8:00;America/Bogota;8.6
-Sunnorte;21/04/2026 8:00;21/04/2026 9:00;America/Bogota;11.03
-Sunnorte;21/04/2026 9:00;21/04/2026 10:00;America/Bogota;23.67
-Sunnorte;21/04/2026 10:00;21/04/2026 11:00;America/Bogota;28.27
-Sunnorte;21/04/2026 11:00;21/04/2026 12:00;America/Bogota;22.77
-Sunnorte;21/04/2026 12:00;21/04/2026 13:00;America/Bogota;7.69
-Sunnorte;21/04/2026 13:00;21/04/2026 14:00;America/Bogota;3.44
-Sunnorte;21/04/2026 14:00;21/04/2026 15:00;America/Bogota;7.49
-Sunnorte;21/04/2026 15:00;21/04/2026 16:00;America/Bogota;8.36
-Sunnorte;21/04/2026 16:00;21/04/2026 17:00;America/Bogota;5.07
-Sunnorte;21/04/2026 17:00;21/04/2026 18:00;America/Bogota;1.18
-Sunnorte;21/04/2026 18:00;21/04/2026 19:00;America/Bogota;0
-Sunnorte;21/04/2026 19:00;21/04/2026 20:00;America/Bogota;0
-Sunnorte;21/04/2026 20:00;21/04/2026 21:00;America/Bogota;0
-Sunnorte;21/04/2026 21:00;21/04/2026 22:00;America/Bogota;0
-Sunnorte;21/04/2026 22:00;21/04/2026 23:00;America/Bogota;0
-Sunnorte;21/04/2026 23:00;22/04/2026 0:00;America/Bogota;0
 Sunnorte;22/04/2026 0:00;22/04/2026 1:00;America/Bogota;0
 Sunnorte;22/04/2026 1:00;22/04/2026 2:00;America/Bogota;0
 Sunnorte;22/04/2026 2:00;22/04/2026 3:00;America/Bogota;0
@@ -47,3 +23,7 @@ Sunnorte;22/04/2026 19:00;22/04/2026 20:00;America/Bogota;0
 Sunnorte;22/04/2026 20:00;22/04/2026 21:00;America/Bogota;0
 Sunnorte;22/04/2026 21:00;22/04/2026 22:00;America/Bogota;0
 Sunnorte;22/04/2026 22:00;22/04/2026 23:00;America/Bogota;0
+Sunnorte;22/04/2026 23:00;23/04/2026 0:00;America/Bogota;0
+Sunnorte;23/04/2026 0:00;23/04/2026 1:00;America/Bogota;0
+Sunnorte;23/04/2026 1:00;23/04/2026 2:00;America/Bogota;0
+Sunnorte;23/04/2026 2:00;23/04/2026 3:00;America/Bogota;0
