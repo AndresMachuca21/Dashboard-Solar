@@ -1,29 +1,5 @@
 # Custom comment;;;;
 Asset ID;Starts dd/mm/YYYY HH:MM;Ends dd/mm/YYYY HH:MM;Time zone;Power MW
-Sunnorte;10/06/2026 0:00;10/06/2026 1:00;America/Bogota;0
-Sunnorte;10/06/2026 1:00;10/06/2026 2:00;America/Bogota;0
-Sunnorte;10/06/2026 2:00;10/06/2026 3:00;America/Bogota;0
-Sunnorte;10/06/2026 3:00;10/06/2026 4:00;America/Bogota;0
-Sunnorte;10/06/2026 4:00;10/06/2026 5:00;America/Bogota;0
-Sunnorte;10/06/2026 5:00;10/06/2026 6:00;America/Bogota;0.1
-Sunnorte;10/06/2026 6:00;10/06/2026 7:00;America/Bogota;2.09
-Sunnorte;10/06/2026 7:00;10/06/2026 8:00;America/Bogota;8.21
-Sunnorte;10/06/2026 8:00;10/06/2026 9:00;America/Bogota;17.24
-Sunnorte;10/06/2026 9:00;10/06/2026 10:00;America/Bogota;20.72
-Sunnorte;10/06/2026 10:00;10/06/2026 11:00;America/Bogota;26.94
-Sunnorte;10/06/2026 11:00;10/06/2026 12:00;America/Bogota;31.07
-Sunnorte;10/06/2026 12:00;10/06/2026 13:00;America/Bogota;27.46
-Sunnorte;10/06/2026 13:00;10/06/2026 14:00;America/Bogota;17.13
-Sunnorte;10/06/2026 14:00;10/06/2026 15:00;America/Bogota;17.39
-Sunnorte;10/06/2026 15:00;10/06/2026 16:00;America/Bogota;6.62
-Sunnorte;10/06/2026 16:00;10/06/2026 17:00;America/Bogota;4.69
-Sunnorte;10/06/2026 17:00;10/06/2026 18:00;America/Bogota;0.66
-Sunnorte;10/06/2026 18:00;10/06/2026 19:00;America/Bogota;0.02
-Sunnorte;10/06/2026 19:00;10/06/2026 20:00;America/Bogota;0
-Sunnorte;10/06/2026 20:00;10/06/2026 21:00;America/Bogota;0
-Sunnorte;10/06/2026 21:00;10/06/2026 22:00;America/Bogota;0
-Sunnorte;10/06/2026 22:00;10/06/2026 23:00;America/Bogota;0
-Sunnorte;10/06/2026 23:00;11/06/2026 0:00;America/Bogota;0
 Sunnorte;11/06/2026 0:00;11/06/2026 1:00;America/Bogota;0
 Sunnorte;11/06/2026 1:00;11/06/2026 2:00;America/Bogota;0
 Sunnorte;11/06/2026 2:00;11/06/2026 3:00;America/Bogota;0
@@ -47,3 +23,5 @@ Sunnorte;11/06/2026 19:00;11/06/2026 20:00;America/Bogota;0
 Sunnorte;11/06/2026 20:00;11/06/2026 21:00;America/Bogota;0
 Sunnorte;11/06/2026 21:00;11/06/2026 22:00;America/Bogota;0
 Sunnorte;11/06/2026 22:00;11/06/2026 23:00;America/Bogota;0
+Sunnorte;11/06/2026 23:00;12/06/2026 0:00;America/Bogota;0
+Sunnorte;12/06/2026 0:00;12/06/2026 1:00;America/Bogota;0
