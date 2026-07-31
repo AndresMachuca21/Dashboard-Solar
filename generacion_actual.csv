@@ -1,29 +1,5 @@
-# Custom comment;;;;
+﻿# Custom comment;;;;
 Asset ID;Starts dd/mm/YYYY HH:MM;Ends dd/mm/YYYY HH:MM;Time zone;Power MW
-Sunnorte;29/07/2026 0:00;29/07/2026 1:00;America/Bogota;0
-Sunnorte;29/07/2026 1:00;29/07/2026 2:00;America/Bogota;0
-Sunnorte;29/07/2026 2:00;29/07/2026 3:00;America/Bogota;0
-Sunnorte;29/07/2026 3:00;29/07/2026 4:00;America/Bogota;0
-Sunnorte;29/07/2026 4:00;29/07/2026 5:00;America/Bogota;0
-Sunnorte;29/07/2026 5:00;29/07/2026 6:00;America/Bogota;0.05
-Sunnorte;29/07/2026 6:00;29/07/2026 7:00;America/Bogota;2.1
-Sunnorte;29/07/2026 7:00;29/07/2026 8:00;America/Bogota;10.44
-Sunnorte;29/07/2026 8:00;29/07/2026 9:00;America/Bogota;19.11
-Sunnorte;29/07/2026 9:00;29/07/2026 10:00;America/Bogota;25.74
-Sunnorte;29/07/2026 10:00;29/07/2026 11:00;America/Bogota;29.4
-Sunnorte;29/07/2026 11:00;29/07/2026 12:00;America/Bogota;32.76
-Sunnorte;29/07/2026 12:00;29/07/2026 13:00;America/Bogota;32.22
-Sunnorte;29/07/2026 13:00;29/07/2026 14:00;America/Bogota;30.85
-Sunnorte;29/07/2026 14:00;29/07/2026 15:00;America/Bogota;17.82
-Sunnorte;29/07/2026 15:00;29/07/2026 16:00;America/Bogota;9.21
-Sunnorte;29/07/2026 16:00;29/07/2026 17:00;America/Bogota;2
-Sunnorte;29/07/2026 17:00;29/07/2026 18:00;America/Bogota;0.9
-Sunnorte;29/07/2026 18:00;29/07/2026 19:00;America/Bogota;0
-Sunnorte;29/07/2026 19:00;29/07/2026 20:00;America/Bogota;0
-Sunnorte;29/07/2026 20:00;29/07/2026 21:00;America/Bogota;0
-Sunnorte;29/07/2026 21:00;29/07/2026 22:00;America/Bogota;0
-Sunnorte;29/07/2026 22:00;29/07/2026 23:00;America/Bogota;0
-Sunnorte;29/07/2026 23:00;30/07/2026 0:00;America/Bogota;0
 Sunnorte;30/07/2026 0:00;30/07/2026 1:00;America/Bogota;0
 Sunnorte;30/07/2026 1:00;30/07/2026 2:00;America/Bogota;0
 Sunnorte;30/07/2026 2:00;30/07/2026 3:00;America/Bogota;0
@@ -41,3 +17,4 @@ Sunnorte;30/07/2026 13:00;30/07/2026 14:00;America/Bogota;23.5
 Sunnorte;30/07/2026 14:00;30/07/2026 15:00;America/Bogota;22
 Sunnorte;30/07/2026 15:00;30/07/2026 16:00;America/Bogota;18.83
 Sunnorte;30/07/2026 16:00;30/07/2026 17:00;America/Bogota;4.05
+Sunnorte;30/07/2026 17:00;30/07/2026 18:00;America/Bogota;1.43
