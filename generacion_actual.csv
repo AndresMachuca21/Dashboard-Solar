@@ -1,30 +1,6 @@
 ## Custom comment;;;;
 
 Asset ID;Starts dd/mm/YYYY HH:MM;Ends dd/mm/YYYY HH:MM;Time zone;Power MW
-Sunnorte;21/09/2026 0:00;21/09/2026 1:00;America/Bogota;0
-Sunnorte;21/09/2026 1:00;21/09/2026 2:00;America/Bogota;0
-Sunnorte;21/09/2026 2:00;21/09/2026 3:00;America/Bogota;0
-Sunnorte;21/09/2026 3:00;21/09/2026 4:00;America/Bogota;0
-Sunnorte;21/09/2026 4:00;21/09/2026 5:00;America/Bogota;0
-Sunnorte;21/09/2026 5:00;21/09/2026 6:00;America/Bogota;0.48
-Sunnorte;21/09/2026 6:00;21/09/2026 7:00;America/Bogota;5.5
-Sunnorte;21/09/2026 7:00;21/09/2026 8:00;America/Bogota;13.63
-Sunnorte;21/09/2026 8:00;21/09/2026 9:00;America/Bogota;9.09
-Sunnorte;21/09/2026 9:00;21/09/2026 10:00;America/Bogota;17.06
-Sunnorte;21/09/2026 10:00;21/09/2026 11:00;America/Bogota;19.25
-Sunnorte;21/09/2026 11:00;21/09/2026 12:00;America/Bogota;18.46
-Sunnorte;21/09/2026 12:00;21/09/2026 13:00;America/Bogota;24.13
-Sunnorte;21/09/2026 13:00;21/09/2026 14:00;America/Bogota;25.93
-Sunnorte;21/09/2026 14:00;21/09/2026 15:00;America/Bogota;18.77
-Sunnorte;21/09/2026 15:00;21/09/2026 16:00;America/Bogota;11.09
-Sunnorte;21/09/2026 16:00;21/09/2026 17:00;America/Bogota;6.17
-Sunnorte;21/09/2026 17:00;21/09/2026 18:00;America/Bogota;0.9
-Sunnorte;21/09/2026 18:00;21/09/2026 19:00;America/Bogota;0
-Sunnorte;21/09/2026 19:00;21/09/2026 20:00;America/Bogota;0
-Sunnorte;21/09/2026 20:00;21/09/2026 21:00;America/Bogota;0
-Sunnorte;21/09/2026 21:00;21/09/2026 22:00;America/Bogota;0
-Sunnorte;21/09/2026 22:00;21/09/2026 23:00;America/Bogota;0
-Sunnorte;21/09/2026 23:00;22/09/2026 0:00;America/Bogota;0
 Sunnorte;22/09/2026 0:00;22/09/2026 1:00;America/Bogota;0
 Sunnorte;22/09/2026 1:00;22/09/2026 2:00;America/Bogota;0
 Sunnorte;22/09/2026 2:00;22/09/2026 3:00;America/Bogota;0
@@ -45,3 +21,7 @@ Sunnorte;22/09/2026 16:00;22/09/2026 17:00;America/Bogota;3.53
 Sunnorte;22/09/2026 17:00;22/09/2026 18:00;America/Bogota;0.24
 Sunnorte;22/09/2026 18:00;22/09/2026 19:00;America/Bogota;0
 Sunnorte;22/09/2026 19:00;22/09/2026 20:00;America/Bogota;0
+Sunnorte;22/09/2026 20:00;22/09/2026 21:00;America/Bogota;0
+Sunnorte;22/09/2026 21:00;22/09/2026 22:00;America/Bogota;0
+Sunnorte;22/09/2026 22:00;22/09/2026 23:00;America/Bogota;0
+Sunnorte;22/09/2026 23:00;23/09/2026 0:00;America/Bogota;0
