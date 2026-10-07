@@ -1,5 +1,4 @@
-## Custom comment;;;;
-
+# Custom comment;;;;
 Asset ID;Starts dd/mm/YYYY HH:MM;Ends dd/mm/YYYY HH:MM;Time zone;Power MW
 Sunnorte;06/10/2026 0:00;06/10/2026 1:00;America/Bogota;0
 Sunnorte;06/10/2026 1:00;06/10/2026 2:00;America/Bogota;0
@@ -37,4 +36,8 @@ Sunnorte;07/10/2026 8:00;07/10/2026 9:00;America/Bogota;23.85
 Sunnorte;07/10/2026 9:00;07/10/2026 10:00;America/Bogota;27.45
 Sunnorte;07/10/2026 10:00;07/10/2026 11:00;America/Bogota;31.9
 Sunnorte;07/10/2026 11:00;07/10/2026 12:00;America/Bogota;26.14
-Sunnorte;07/10/2026 12:00;07/10/2026 13:00;America/Bogota;8.76
+Sunnorte;07/10/2026 12:00;07/10/2026 13:00;America/Bogota;33.9
+Sunnorte;07/10/2026 13:00;07/10/2026 14:00;America/Bogota;23.42
+Sunnorte;07/10/2026 14:00;07/10/2026 15:00;America/Bogota;22.1
+Sunnorte;07/10/2026 15:00;07/10/2026 16:00;America/Bogota;12.62
+Sunnorte;07/10/2026 16:00;07/10/2026 17:00;America/Bogota;5.27
