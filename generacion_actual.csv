@@ -1,29 +1,6 @@
-# Custom comment;;;;
+## Custom comment;;;;
+
 Asset ID;Starts dd/mm/YYYY HH:MM;Ends dd/mm/YYYY HH:MM;Time zone;Power MW
-Sunnorte;15/10/2026 0:00;15/10/2026 1:00;America/Bogota;0
-Sunnorte;15/10/2026 1:00;15/10/2026 2:00;America/Bogota;0
-Sunnorte;15/10/2026 2:00;15/10/2026 3:00;America/Bogota;0
-Sunnorte;15/10/2026 3:00;15/10/2026 4:00;America/Bogota;0
-Sunnorte;15/10/2026 4:00;15/10/2026 5:00;America/Bogota;0
-Sunnorte;15/10/2026 5:00;15/10/2026 6:00;America/Bogota;0.03
-Sunnorte;15/10/2026 6:00;15/10/2026 7:00;America/Bogota;3.33
-Sunnorte;15/10/2026 7:00;15/10/2026 8:00;America/Bogota;14.97
-Sunnorte;15/10/2026 8:00;15/10/2026 9:00;America/Bogota;22.18
-Sunnorte;15/10/2026 9:00;15/10/2026 10:00;America/Bogota;29.51
-Sunnorte;15/10/2026 10:00;15/10/2026 11:00;America/Bogota;33.47
-Sunnorte;15/10/2026 11:00;15/10/2026 12:00;America/Bogota;32.92
-Sunnorte;15/10/2026 12:00;15/10/2026 13:00;America/Bogota;17.24
-Sunnorte;15/10/2026 13:00;15/10/2026 14:00;America/Bogota;15.15
-Sunnorte;15/10/2026 14:00;15/10/2026 15:00;America/Bogota;10.84
-Sunnorte;15/10/2026 15:00;15/10/2026 16:00;America/Bogota;11.45
-Sunnorte;15/10/2026 16:00;15/10/2026 17:00;America/Bogota;2.04
-Sunnorte;15/10/2026 17:00;15/10/2026 18:00;America/Bogota;0.25
-Sunnorte;15/10/2026 18:00;15/10/2026 19:00;America/Bogota;0
-Sunnorte;15/10/2026 19:00;15/10/2026 20:00;America/Bogota;0
-Sunnorte;15/10/2026 20:00;15/10/2026 21:00;America/Bogota;0
-Sunnorte;15/10/2026 21:00;15/10/2026 22:00;America/Bogota;0
-Sunnorte;15/10/2026 22:00;15/10/2026 23:00;America/Bogota;0
-Sunnorte;15/10/2026 23:00;16/10/2026 0:00;America/Bogota;0
 Sunnorte;16/10/2026 0:00;16/10/2026 1:00;America/Bogota;0
 Sunnorte;16/10/2026 1:00;16/10/2026 2:00;America/Bogota;0
 Sunnorte;16/10/2026 2:00;16/10/2026 3:00;America/Bogota;0
@@ -47,3 +24,13 @@ Sunnorte;16/10/2026 19:00;16/10/2026 20:00;America/Bogota;0
 Sunnorte;16/10/2026 20:00;16/10/2026 21:00;America/Bogota;0
 Sunnorte;16/10/2026 21:00;16/10/2026 22:00;America/Bogota;0
 Sunnorte;16/10/2026 22:00;16/10/2026 23:00;America/Bogota;0
+Sunnorte;16/10/2026 23:00;17/10/2026 0:00;America/Bogota;0
+Sunnorte;17/10/2026 0:00;17/10/2026 1:00;America/Bogota;0
+Sunnorte;17/10/2026 1:00;17/10/2026 2:00;America/Bogota;0
+Sunnorte;17/10/2026 2:00;17/10/2026 3:00;America/Bogota;0
+Sunnorte;17/10/2026 3:00;17/10/2026 4:00;America/Bogota;0
+Sunnorte;17/10/2026 4:00;17/10/2026 5:00;America/Bogota;0
+Sunnorte;17/10/2026 5:00;17/10/2026 6:00;America/Bogota;0
+Sunnorte;17/10/2026 6:00;17/10/2026 7:00;America/Bogota;0.55
+Sunnorte;17/10/2026 7:00;17/10/2026 8:00;America/Bogota;2.85
+Sunnorte;17/10/2026 8:00;17/10/2026 9:00;America/Bogota;2.15
