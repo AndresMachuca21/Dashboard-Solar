@@ -1,30 +1,6 @@
 ## Custom comment;;;;
 
 Asset ID;Starts dd/mm/YYYY HH:MM;Ends dd/mm/YYYY HH:MM;Time zone;Power MW
-Sunnorte;07/11/2026 0:00;07/11/2026 1:00;America/Bogota;0
-Sunnorte;07/11/2026 1:00;07/11/2026 2:00;America/Bogota;0
-Sunnorte;07/11/2026 2:00;07/11/2026 3:00;America/Bogota;0
-Sunnorte;07/11/2026 3:00;07/11/2026 4:00;America/Bogota;0
-Sunnorte;07/11/2026 4:00;07/11/2026 5:00;America/Bogota;0
-Sunnorte;07/11/2026 5:00;07/11/2026 6:00;America/Bogota;0.01
-Sunnorte;07/11/2026 6:00;07/11/2026 7:00;America/Bogota;2.42
-Sunnorte;07/11/2026 7:00;07/11/2026 8:00;America/Bogota;6.1
-Sunnorte;07/11/2026 8:00;07/11/2026 9:00;America/Bogota;10.17
-Sunnorte;07/11/2026 9:00;07/11/2026 10:00;America/Bogota;12.91
-Sunnorte;07/11/2026 10:00;07/11/2026 11:00;America/Bogota;22
-Sunnorte;07/11/2026 11:00;07/11/2026 12:00;America/Bogota;23.95
-Sunnorte;07/11/2026 12:00;07/11/2026 13:00;America/Bogota;26.63
-Sunnorte;07/11/2026 13:00;07/11/2026 14:00;America/Bogota;18.68
-Sunnorte;07/11/2026 14:00;07/11/2026 15:00;America/Bogota;14.62
-Sunnorte;07/11/2026 15:00;07/11/2026 16:00;America/Bogota;4.49
-Sunnorte;07/11/2026 16:00;07/11/2026 17:00;America/Bogota;1.58
-Sunnorte;07/11/2026 17:00;07/11/2026 18:00;America/Bogota;0.15
-Sunnorte;07/11/2026 18:00;07/11/2026 19:00;America/Bogota;0
-Sunnorte;07/11/2026 19:00;07/11/2026 20:00;America/Bogota;0
-Sunnorte;07/11/2026 20:00;07/11/2026 21:00;America/Bogota;0
-Sunnorte;07/11/2026 21:00;07/11/2026 22:00;America/Bogota;0
-Sunnorte;07/11/2026 22:00;07/11/2026 23:00;America/Bogota;0
-Sunnorte;07/11/2026 23:00;08/11/2026 0:00;America/Bogota;0
 Sunnorte;08/11/2026 0:00;08/11/2026 1:00;America/Bogota;0
 Sunnorte;08/11/2026 1:00;08/11/2026 2:00;America/Bogota;0
 Sunnorte;08/11/2026 2:00;08/11/2026 3:00;America/Bogota;0
@@ -45,3 +21,9 @@ Sunnorte;08/11/2026 16:00;08/11/2026 17:00;America/Bogota;2.52
 Sunnorte;08/11/2026 17:00;08/11/2026 18:00;America/Bogota;0.31
 Sunnorte;08/11/2026 18:00;08/11/2026 19:00;America/Bogota;0
 Sunnorte;08/11/2026 19:00;08/11/2026 20:00;America/Bogota;0
+Sunnorte;08/11/2026 20:00;08/11/2026 21:00;America/Bogota;0
+Sunnorte;08/11/2026 21:00;08/11/2026 22:00;America/Bogota;0
+Sunnorte;08/11/2026 22:00;08/11/2026 23:00;America/Bogota;0
+Sunnorte;08/11/2026 23:00;09/11/2026 0:00;America/Bogota;0
+Sunnorte;09/11/2026 0:00;09/11/2026 1:00;America/Bogota;0
+Sunnorte;09/11/2026 1:00;09/11/2026 2:00;America/Bogota;0
